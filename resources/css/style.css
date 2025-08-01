@@ -1,0 +1,92 @@
+/* Status */
+.status-aberta {
+    background-color: #e23c4a;
+    color: #f6f4f4;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: bol
+    
+}
+
+.status-andamento {
+    background-color: #edbc1c;
+    color: #f7f6f5;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.status-concluida {
+    background-color: #078b26;
+    color: #f7f9f7;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+
+/* Garante que o menu lateral ocupe toda a altura */
+#sidebar {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #0f172a; 
+  transition: width 0.3s ease;
+}
+
+/* Estilo para o conteúdo rolável do menu */
+#sidebar > div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Remove a rolagem da página principal */
+html, body {
+  overflow-x: hidden;
+}
+#conteudo-principal {
+  transition: margin-left 0.3s ease;
+  margin-left: 16rem; /* igual w-64 */
+}
+
+#conteudo-principal.menu-colapsado {
+  margin-left: 5rem; /* igual w-20 */
+}
+
+ /* Estilo Loading */  
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+}
+    @keyframes fade-in {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.4s ease-out both;
+}       
+
+

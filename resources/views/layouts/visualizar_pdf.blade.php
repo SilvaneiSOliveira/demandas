@@ -1,0 +1,29 @@
+@extends('layouts.app')
+
+@section('content')
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar PDF</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="{{ $url }}" onload="esconderLoading()"></iframe>
+</body>
+</html>
+
+@endsection

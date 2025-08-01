@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers;
+
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Filial;
+use App\Models\Preventiva;
+
+class PreventivaController extends Controller
+
+{
+
+    public function index()
+    {
+        return view('tombamentos.preventivas');
+}
+
+
+   public function salvar(Request $request)
+   
+{
+    $filiais = $request->input('filial');
+
+    if (!$filiais || !is_array($filiais)) {
+        return response()->json(['erro' => 'Nenhuma filial enviada'], 400);
+    }
+
+    foreach ($filiais as $id) {
+    Preventiva::updateOrCreate(
+        [
+            'cliente' => $request->input('cliente'),
+            'filial' => $id,
+        ],
+        [
+            'status' => $request->input("status.$id"),
+            'data' => $request->input("data.$id"),
+            'observacoes' => $request->input("observacoes.$id"),
+            'usuario_alteracao' => auth()->user()->name,
+        ]
+    );
+}
+
+    return response()->json([
+        'success' => true,
+        'updated_at' => now()->format('d/m/Y H:i'),
+        'usuario' => auth()->user()->name,
+    ]);
+}
+
+
+    public function filiais($cliente)
+    {
+        $preventivas = Preventiva::where('cliente', $cliente)->get();
+        return view('partials.tabela_preventiva', compact('preventivas'));
+    }
+
+
+}
