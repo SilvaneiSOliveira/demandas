@@ -7,9 +7,13 @@ export default defineConfig({
         port: 5173, // ou outro que queira
         strictPort: true,
     },
-    plugins: [
+      plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/css/style.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.css',
+                'resources/css/style.css',
+                'resources/js/app.js',
+            ],
             refresh: true,
         }),
     ],

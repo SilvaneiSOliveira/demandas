@@ -1,7 +1,7 @@
-import './bootstrap';
 
+import './bootstrap';  // Importa as configurações do Laravel/Echo/Pusher
 import Alpine from 'alpinejs';
 
-window.Alpine = Alpine;
+window.Alpine = Alpine;  // Registra o Alpine globalmente
 
-Alpine.start();
+Alpine.start();  // Inicializa o Alpine

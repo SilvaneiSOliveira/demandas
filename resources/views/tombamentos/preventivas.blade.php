@@ -13,7 +13,7 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         @foreach (['DROGARIA DA GENTE', 'AFORMULA SALVADOR', 'PLUSPHARMA', 'FLORA', 'ELEMENTAR', 'CRIAÇÃO', 'PLANETA', 'SINGULAR SALVADOR', 'SINGULAR VILAS'] as $cliente)
             <button 
-                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded shadow transition duration-200"
+                class="bg-gray-500 hover:bg-gray-400 text-white font-medium py-3 px-4 rounded shadow transition duration-200"
                 onclick="abrirModal('{{ $cliente }}')">
                 {{ $cliente }}
             </button>

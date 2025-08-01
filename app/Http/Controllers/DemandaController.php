@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Demanda;
 use App\Models\Cliente;
 use App\Models\Filial;
+use App\Events\DemandaAtualizada;
 
 class DemandaController extends Controller
 {
@@ -34,6 +35,7 @@ class DemandaController extends Controller
         ]);
 
         Demanda::create($request->all());
+
 
         return redirect()->route('demandas.index')->with('success', 'Demanda cadastrada com sucesso!');
     }
@@ -70,19 +72,28 @@ class DemandaController extends Controller
     }
 
     public function atualizarStatus(Request $request, $id)
-    {
-        $demanda = Demanda::findOrFail($id);
-        
-        $validated = $request->validate([
-            'status' => 'required|string',
-            'resolucao' => 'nullable|string'
-        ]);
+{
+    $demanda = Demanda::findOrFail($id);
 
-        $demanda->update([
-            'status' => $validated['status'],
-            'resolucao' => $validated['resolucao']
-        ]);
+    $validated = $request->validate([
+        'status' => 'required|string',
+        'resolucao' => 'nullable|string'
+    ]);
 
-        return redirect()->back()->with('success', 'Demanda atualizada com sucesso!');
-    }
+    $demanda->update([
+        'status' => $validated['status'],
+        'resolucao' => $validated['resolucao']
+    ]);
+
+    // Recarrega a demanda com os relacionamentos que você quer enviar no broadcast
+    $demanda->load(['cliente', 'filial']);
+
+    // Dispara o evento pro Pusher
+    event(new DemandaAtualizada($demanda));
+
+    return redirect()->back()->with('success', 'Demanda atualizada com sucesso!');
 }
+
+
+}
+

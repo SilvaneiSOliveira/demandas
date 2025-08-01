@@ -42,4 +42,26 @@ class DashboardController extends Controller
             'valores' => $valores
         ]);
     }
+
+    public function contadores()
+    {
+        return response()->json([
+            'abertas' => Demanda::where('status', 'Aberta')->count(),
+            'andamento' => Demanda::where('status', 'Em Andamento')->count(),
+            'concluidas' => Demanda::where('status', 'Concluída')->count(),
+            'total' => Demanda::count()
+        ]);
+    }
+
+    public function ultimasDemandas()
+    {
+        $ultimasDemandas = Demanda::with(['cliente', 'filial'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        $html = view('dashboard._ultimas_demandas_cadastradas', compact('ultimasDemandas'))->render();
+
+        return response()->json(['html' => $html]);
+    }
 }

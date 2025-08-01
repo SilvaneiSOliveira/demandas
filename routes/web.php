@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('demandas', DemandaController::class);
     Route::resource('users', UserController::class);
     Route::resource('users', PreventivaController::class);
+    Route::resource('users', PreventivaController::class);
    
    
    
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/relatorios/exportar/pdf', [RelatorioController::class, 'exportarPdf'])->name('relatorios.exportar.pdf');
     Route::get('/relatorios/exportar/excel', [RelatorioController::class, 'exportarExcel'])->name('relatorios.exportar.excel');
     Route::get('/relatorios/ver-pdf', [RelatorioController::class, 'visualizarPdf'])->name('relatorios.ver_pdf');
+    Route::get('/dashboard/contadores', [DashboardController::class, 'contadores'])->name('dashboard.contadores');
+    Route::get('/dashboard/ultimas', [DashboardController::class, 'ultimasDemandas'])->name('dashboard.ultimas');   
    
 // Relatórios
     Route::prefix('relatorios')->group(function () {
@@ -43,6 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/graficos', [GraficoController::class, 'index'])->name('relatorios.graficos');
         Route::get('/exportar-pdf', [RelatorioController::class, 'exportarPdf'])->name('relatorios.exportar.pdf');
         Route::get('/exportar-excel', [RelatorioController::class, 'exportarExcel'])->name('relatorios.exportar.excel');
+       
 
 });
     
@@ -68,8 +72,10 @@ Route::middleware('auth')->group(function () {
 
 // Rota de teste opcional
     Route::get('/teste', function () {return view('teste');
-});
+ 
 
+
+});
 
 
 require __DIR__.'/auth.php';

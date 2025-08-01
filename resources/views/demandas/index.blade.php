@@ -43,8 +43,8 @@
                                         <th class="border border-gray-300 px-4 py-2 text-left font-medium">Título</th>
                                         <th class="border border-gray-300 px-4 py-2 text-left font-medium">Cliente</th>
                                         <th class="border border-gray-300 px-4 py-2 text-left font-medium">Filial</th>
-                                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Criada em</th>
-                                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Agendamento</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Data Criação</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Data Agendamento</th>
                                         <th class="border border-gray-300 px-4 py-2 text-left font-medium">Status</th>
                                         <th class="border border-gray-300 px-4 py-2 text-center font-medium">Ações</th>
                                     </tr>
