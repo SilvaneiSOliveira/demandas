@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // Atualiza a cada 2 segundos
+    
     setInterval(() => {
         atualizarContadores();
         atualizarUltimasDemandas();
-    }, 5000);
+    }, 10000); // Atualiza a cada 10 segundos
 });
 </script>
 @endsection

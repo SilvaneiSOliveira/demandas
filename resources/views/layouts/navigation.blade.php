@@ -16,85 +16,85 @@
             </a>
         </li>
 
-    {{-- CLIENTES --}}
-    <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('clientes')">
-      <div class="flex justify-between items-center">
-        <span><span class="mr-2">👥</span> <span class="sidebar-text">CLIENTES</span></span>
-        <span id="arrow-clientes" class="transition-transform duration-300">➤</span>
-      </div>
-      <ul id="submenu-clientes" class="list-none pl-5 mt-1 hidden">
-        <li class="py-1"><a href="{{ route('clientes.create') }}" class="text-white hover:text-cyan-300">Cadastrar Cliente</a></li>
-        <li class="py-1"><a href="{{ route('clientes.index') }}" class="text-white hover:text-cyan-300">Consultar Cliente</a></li>
-      </ul>
-    </li>
+      {{-- CLIENTES --}}
+      <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('clientes')">
+        <div class="flex justify-between items-center">
+          <span><span class="mr-2">👥</span> <span class="sidebar-text">CLIENTES</span></span>
+          <span id="arrow-clientes" class="transition-transform duration-300">></span>
+        </div>
+        <ul id="submenu-clientes" class="list-none pl-5 mt-1 hidden">
+          <li class="py-1"><a href="{{ route('clientes.create') }}" class="text-white hover:text-cyan-300">Cadastrar Cliente</a></li>
+          <li class="py-1"><a href="{{ route('clientes.index') }}" class="text-white hover:text-cyan-300">Consultar Cliente</a></li>
+        </ul>
+      </li>
 
-    {{-- FILIAIS --}}
-    <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('filiais')">
-      <div class="flex justify-between items-center">
-        <span><span class="mr-2">🏢</span> <span class="sidebar-text">FILIAIS</span></span>
-        <span id="arrow-filiais" class="transition-transform duration-300">➤</span>
-      </div>
-      <ul id="submenu-filiais" class="list-none pl-5 mt-1 hidden">
-        <li class="py-1"><a href="{{ route('filiais.create') }}" class="text-white hover:text-cyan-300">Cadastrar Filial</a></li>
-        <li class="py-1"><a href="{{ route('filiais.index') }}" class="text-white hover:text-cyan-300">Consultar Filial</a></li>
-      </ul>
-    </li>
+      {{-- FILIAIS --}}
+      <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('filiais')">
+        <div class="flex justify-between items-center">
+          <span><span class="mr-2">🏢</span> <span class="sidebar-text">FILIAIS</span></span>
+          <span id="arrow-filiais" class="transition-transform duration-300">></span>
+        </div>
+        <ul id="submenu-filiais" class="list-none pl-5 mt-1 hidden">
+          <li class="py-1"><a href="{{ route('filiais.create') }}" class="text-white hover:text-cyan-300">Cadastrar Filial</a></li>
+          <li class="py-1"><a href="{{ route('filiais.index') }}" class="text-white hover:text-cyan-300">Consultar Filial</a></li>
+        </ul>
+      </li>
 
-    {{-- DEMANDAS --}}
-    <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('demandas')">
-      <div class="flex justify-between items-center">
-        <span><span class="mr-2">📋</span> <span class="sidebar-text">DEMANDAS</span></span>
-        <span id="arrow-demandas" class="transition-transform duration-300">➤</span>
-      </div>
-      <ul id="submenu-demandas" class="list-none pl-5 mt-1 hidden">
-        <li class="py-1"><a href="{{ route('demandas.create') }}" class="text-white hover:text-cyan-300">Cadastrar Demanda</a></li>
-        <li class="py-1"><a href="{{ route('demandas.index') }}" class="text-white hover:text-cyan-300">Consultar Demanda</a></li>
-      </ul>
-    </li>
+      {{-- DEMANDAS --}}
+      <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('demandas')">
+        <div class="flex justify-between items-center">
+          <span><span class="mr-2">📋</span> <span class="sidebar-text">DEMANDAS</span></span>
+          <span id="arrow-demandas" class="transition-transform duration-300">></span>
+        </div>
+        <ul id="submenu-demandas" class="list-none pl-5 mt-1 hidden">
+          <li class="py-1"><a href="{{ route('demandas.create') }}" class="text-white hover:text-cyan-300">Cadastrar Demanda</a></li>
+          <li class="py-1"><a href="{{ route('demandas.index') }}" class="text-white hover:text-cyan-300">Consultar Demanda</a></li>
+        </ul>
+      </li>
 
-    {{-- RELATÓRIOS --}}
-    <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('relatorios')">
-      <div class="flex justify-between items-center">
-        <span><span class="mr-2">📊</span> <span class="sidebar-text">RELATÓRIOS</span></span>
-        <span id="arrow-relatorios" class="transition-transform duration-300">➤</span>
-      </div>
-      <ul id="submenu-relatorios" class="list-none pl-5 mt-1 hidden">
-        <li class="py-1"><a href="{{ route('relatorios.create') }}" class="text-white hover:text-cyan-300">Criar Relatório</a></li>
-        <li class="py-1"><a href="{{ route('relatorios.graficos') }}" class="text-white hover:text-cyan-300">Dashboard</a></li>
-      </ul>
-    </li>
+      {{-- RELATÓRIOS --}}
+      <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('relatorios')">
+        <div class="flex justify-between items-center">
+          <span><span class="mr-2">📊</span> <span class="sidebar-text">RELATÓRIOS</span></span>
+          <span id="arrow-relatorios" class="transition-transform duration-300">></span>
+        </div>
+        <ul id="submenu-relatorios" class="list-none pl-5 mt-1 hidden">
+          <li class="py-1"><a href="{{ route('relatorios.create') }}" class="text-white hover:text-cyan-300">Criar Relatório</a></li>
+          <li class="py-1"><a href="{{ route('relatorios.graficos') }}" class="text-white hover:text-cyan-300">Dashboard</a></li>
+        </ul>
+      </li>
 
-    {{-- TOMBAMENTOS --}}
-    <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('tombamentos')">
-      <div class="flex justify-between items-center">
-        <span><span class="mr-2">🛠️</span> <span class="sidebar-text">TOMBAMENTOS</span></span>
-        <span id="arrow-tombamentos" class="transition-transform duration-300">➤</span>
-      </div>
-      <ul id="submenu-tombamentos" class="list-none pl-5 mt-1 hidden">
-        <li class="py-1"><a href="{{ route('tombamentos.preventivas') }}" class="text-white hover:text-cyan-300">Preventivas</a></li>
-        <li class="py-1"><a href="{{ route('tombamentos.computadores') }}" class="text-white hover:text-cyan-300">Computadores</a></li>
-      </ul>
-    </li>
+      {{-- TOMBAMENTOS --}}
+      <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('tombamentos')">
+        <div class="flex justify-between items-center">
+          <span><span class="mr-2">🛠️</span> <span class="sidebar-text">TOMBAMENTOS</span></span>
+          <span id="arrow-tombamentos" class="transition-transform duration-300">></span>
+        </div>
+        <ul id="submenu-tombamentos" class="list-none pl-5 mt-1 hidden">
+          <li class="py-1"><a href="{{ route('tombamentos.preventivas') }}" class="text-white hover:text-cyan-300">Preventivas</a></li>
+          <li class="py-1"><a href="{{ route('tombamentos.computadores') }}" class="text-white hover:text-cyan-300">Computadores</a></li>
+        </ul>
+      </li>
 
-    {{-- USUÁRIOS (admin) --}}
-    @auth
-      @if (Auth::user()->tipo === 'admin')
-        <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('users')">
-          <div class="flex justify-between items-center">
-            <span><span class="mr-2">👤</span> <span class="sidebar-text">USUÁRIOS</span></span>
-            <span id="arrow-users" class="transition-transform duration-300">➤</span>
-          </div>
-          <ul id="submenu-users" class="list-none pl-5 mt-1 hidden">
-            <li class="py-1"><a href="{{ route('users.create') }}" class="text-white hover:text-cyan-300">Criar Usuários</a></li>
-            <li class="py-1"><a href="{{ route('users.index') }}" class="text-white hover:text-cyan-300">Gerenciar Usuários</a></li>
-          </ul>
-        </li>
-      @endif
-    @endauth
-  </ul>
+      {{-- USUÁRIOS (admin) --}}
+      @auth
+        @if (Auth::user()->tipo === 'admin')
+          <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('users')">
+            <div class="flex justify-between items-center">
+              <span><span class="mr-2">👤</span> <span class="sidebar-text">USUÁRIOS</span></span>
+              <span id="arrow-users" class="transition-transform duration-300">></span>
+            </div>
+            <ul id="submenu-users" class="list-none pl-5 mt-1 hidden">
+              <li class="py-1"><a href="{{ route('users.create') }}" class="text-white hover:text-cyan-300">Criar Usuários</a></li>
+              <li class="py-1"><a href="{{ route('users.index') }}" class="text-white hover:text-cyan-300">Gerenciar Usuários</a></li>
+            </ul>
+          </li>
+        @endif
+      @endauth
+   </ul>
  
 
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mt-auto bg-red-600 rounded px-4 py-3 cursor-pointer hover:bg-red-900">
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mt-auto bg-red-600 rounded px-4 py-3 cursor-pointer hover:bg-red-900">
         @csrf
         <button type="submit" class="w-full text-white font-semibold">🔓 Sair</button>
     </form>
