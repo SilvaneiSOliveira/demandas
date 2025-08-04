@@ -17,11 +17,12 @@ class GraficoController extends Controller
         $total = Demanda::count();
 
         // Últimas 5 demandas (com cliente e filial já carregados)
-        $ultimasDemandas = Demanda::with(['cliente', 'filial'])
-            ->orderByRaw("FIELD(status, 'aberta', 'em andamento', 'concluída')")
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
+       $ultimasDemandas = Demanda::with(['cliente', 'filial'])
+        ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
+        ->orderBy('created_at', 'desc')
+        ->limit(5)
+        ->get();
+
 
         // Labels: nome do cliente
         $labelsUltimasDemandas = $ultimasDemandas->map(function ($demanda) {
@@ -50,6 +51,8 @@ class GraficoController extends Controller
         $labelsUltimasDemandas = $dadosDemandas->pluck('data');
         $valoresUltimasDemandas = $dadosDemandas->pluck('total');
 
-        return view('nome.da.sua.view', compact('labelsUltimasDemandas', 'valoresUltimasDemandas'));
+        return view('graficos.blade', compact('labelsUltimasDemandas', 'valoresUltimasDemandas'));
     }
+
+
 }

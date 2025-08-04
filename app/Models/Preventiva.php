@@ -17,6 +17,7 @@ class Preventiva extends Model
         'status',
         'observacoes',
         'data',
+        'ultima_alteracao',
         'usuario_alteracao',
     ];
 
@@ -32,5 +33,6 @@ class Preventiva extends Model
         $preventivas = Preventiva::where('cliente', $cliente)->get();
         return view('partials.tabela_preventiva', compact('preventivas'));
     }
+    
 }
 

@@ -22,7 +22,7 @@
             <div>
                 <label class="block text-gray-700 font-medium mb-1">Filial</label>
                 <select name="filial_id" id="filial_id" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200">
-                    <option value="">Selecione uma filial</option
+                    <option value="">Selecione uma filial</option>
                 </select>
             </div>
 
@@ -82,7 +82,7 @@
 
 
             <div>
-                <label class="block text-gray-700 font-medium mb-1">Data Agendamento *</label>
+                <label class="block text-gray-700 font-medium mb-1">Data Agendamento (Atendimento)*</label>
                 <input type="date" name="data_agendamento" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
             </div>
 

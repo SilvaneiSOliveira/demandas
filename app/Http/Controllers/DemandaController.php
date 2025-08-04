@@ -42,19 +42,25 @@ class DemandaController extends Controller
 
     // PAGINÇÃO
     public function index(Request $request)
-    {
-        $query = Demanda::with(['cliente', 'filial']);
+{
+    $query = Demanda::with(['cliente', 'filial']);
 
-        if ($request->filled('filtro')) {
-            $filtro = $request->input('filtro');
-            $query->where('titulo', 'like', "%$filtro%")
-                  ->orWhere('solicitante', 'like', "%$filtro%");
-        }
-
-        $demandas = $query->orderBy('created_at', 'desc')->paginate(10);
-
-        return view('demandas.index', compact('demandas'));
+    if ($request->filled('filtro')) {
+        $filtro = $request->input('filtro');
+        $query->where(function ($q) use ($filtro) {
+            $q->where('titulo', 'like', "%$filtro%")
+              ->orWhere('solicitante', 'like', "%$filtro%");
+        });
     }
+    // Ordenar com prioridade: Aberta > Em andamento > outros, depois created_at desc
+    $demandas = $query
+        ->orderByRaw("FIELD(status, 'Em andamento', 'Aberta') DESC")
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return view('demandas.index', compact('demandas'));
+}
+
 
     public function show($id)
     {

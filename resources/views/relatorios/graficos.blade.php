@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(() => {
         atualizarContadores();
         atualizarUltimasDemandas();
-    }, 10000); // Atualiza a cada 10 segundos
+    }, 5000); // Atualiza a cada 5 segundos
 });
 </script>
 @endsection

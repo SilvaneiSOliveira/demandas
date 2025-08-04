@@ -37,7 +37,11 @@ class PreventivaController extends Controller
             'status' => $request->input("status.$id"),
             'data' => $request->input("data.$id"),
             'observacoes' => $request->input("observacoes.$id"),
+            'ultima_alteracao' => $request->input("ultima_alteracao.$id"),
             'usuario_alteracao' => auth()->user()->name,
+            'data_alteracao' => now(),
+            'usuario_alteracao' => auth()->user()->name,
+
         ]
     );
 }

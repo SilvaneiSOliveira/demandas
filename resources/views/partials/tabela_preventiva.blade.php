@@ -10,7 +10,7 @@
     <tbody>
     @foreach ($preventivas as $p)
         @php
-            $status = strtoupper(trim($p->status)); // garante que vai comparar certo
+            $status = strtoupper(trim($p->status));
             $classeStatus = match ($status) {
                 'OK' => 'bg-green-600 text-white font-semibold',
                 'PENDENTE' => 'bg-yellow-500 text-white font-semibold',
@@ -51,10 +51,21 @@
                 >
             </td>
         </tr>
-@endforeach
-
-
+    @endforeach
     </tbody>
 
-   
+    @if($preventivas->count() > 0)
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-xs text-gray-600 border-t p-2 bg-gray-50">
+                    Última alteração:
+                    {{ $preventivas->max('updated_at')->format('d/m/Y H:i') }}
+                    por
+                    {{
+                        $preventivas->sortByDesc('updated_at')->first()->usuario_alteracao ?? '—'
+                    }}
+                </td>
+            </tr>
+        </tfoot>
+    @endif
 </table>

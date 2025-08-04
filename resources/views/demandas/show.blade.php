@@ -61,7 +61,7 @@
 
         
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Data Agendamento</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Data Agendamento (atendimento)</label>
                 <input type="text" 
                     value="{{ $demanda->data_agendamento ? \Carbon\Carbon::parse($demanda->data_agendamento)->timezone('America/Bahia')->format('d/m/Y H:i') : 'Sem data' }}" 
                     disabled 
