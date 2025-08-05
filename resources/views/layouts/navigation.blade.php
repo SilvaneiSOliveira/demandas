@@ -1,13 +1,14 @@
-<nav id="sidebar" class="bg-gray-900 text-white h-screen flex flex-col p-4 shadow-lg transition-all duration-300 w-64">
+<nav id="sidebar" class="relative bg-gray-900 text-white h-screen flex flex-col p-4 shadow-lg transition-all duration-300 w-64">
     <!-- Botão de colapsar -->
     <button onclick="toggleSidebar()" class="absolute top-2 right-2 bg-cyan-600 text-white rounded-full p-1 shadow-md hover:bg-cyan-800 transition z-10">
         <svg id="arrowToggle" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
+<div class="flex-1 overflow-y-auto">
 
+   <h2 class="mt-6 mb-6 text-2xl font-bold border-b border-cyan-400 pb-3 sidebar-title">Demandas</h2>
 
-  <h2 class="mb-6 text-2xl font-bold border-b border-cyan-400 pb-3 sidebar-title">Demandas</h2>
 
    <ul class="list-none flex flex-col gap-2">
         <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500">
@@ -92,12 +93,30 @@
         @endif
       @endauth
    </ul>
- 
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mt-auto bg-red-600 rounded px-4 py-3 cursor-pointer hover:bg-red-900">
-        @csrf
-        <button type="submit" class="w-full text-white font-semibold">🔓 Sair</button>
-    </form>
+  
+   {{-- RODAPÉ --}}
+    <div id="sidebarFooter" class="absolute bottom-0 left-0 w-full p-4 bg-gray-800">
+        <div class="text-sm text-gray-300">
+            <div class="flex items-center gap-2 mb-1">
+                <span class="text-base">👤</span>
+                <span class="truncate">{{ Auth::user()->name }}</span>
+                <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded">
+                    {{ strtoupper(Auth::user()->tipo) }}
+                </span>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+                <span class="text-base">📘</span>
+                <span class="truncate">Sistema Demandas</span>
+                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 1.1.0</span>
+            </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full bg-red-600 text-white font-semibold px-3 py-2 rounded hover:bg-red-900">
+                    🔓 Sair
+                </button>
+            </form>
+        </div>
+    </div>
 </nav>
 
 <!-- Scripts -->
@@ -111,21 +130,32 @@
     }
 
     function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const texts = document.querySelectorAll('.sidebar-text');
-        const title = document.querySelector('.sidebar-title');
-        const arrow = document.getElementById('arrowToggle');
-        const wrapper = document.getElementById('wrapper');
+    const sidebar = document.getElementById('sidebar');
+    const texts = document.querySelectorAll('.sidebar-text');
+    const title = document.querySelector('.sidebar-title');
+    const arrow = document.getElementById('arrowToggle');
+    const wrapper = document.getElementById('wrapper');
+    const footer = document.getElementById('sidebarFooter'); 
 
-        sidebar.classList.toggle('w-64');
-        sidebar.classList.toggle('w-20');
+    sidebar.classList.toggle('w-64');
+    sidebar.classList.toggle('w-20');
+    
+    // ADICIONA OU REMOVE A CLASSE collapsed 
+    sidebar.classList.toggle('collapsed');
 
-        texts.forEach(el => el.classList.toggle('hidden'));
-        if (title) title.classList.toggle('hidden');
-        arrow.classList.toggle('rotate-180');
+    texts.forEach(el => el.classList.toggle('hidden'));
+    if (title) title.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180');
 
-        // Adiciona/Remove classe de deslocamento no wrapper
-        wrapper.classList.toggle('pl-64');
-        wrapper.classList.toggle('pl-20');
+    wrapper.classList.toggle('pl-64');
+    wrapper.classList.toggle('pl-20');
+
+    // ESCONDE O RODAPÉ JUNTO COM A SIDEBAR
+    if (sidebar.classList.contains('collapsed')) {
+        footer.classList.add('hidden');
+    } else {
+        footer.classList.remove('hidden');
     }
+}
+
 </script>

@@ -18,8 +18,7 @@ class PreventivaController extends Controller
 }
 
 
-   public function salvar(Request $request)
-   
+public function salvar(Request $request)
 {
     $filiais = $request->input('filial');
 
@@ -28,30 +27,31 @@ class PreventivaController extends Controller
     }
 
     foreach ($filiais as $id) {
-    Preventiva::updateOrCreate(
-        [
-            'cliente' => $request->input('cliente'),
-            'filial' => $id,
-        ],
-        [
-            'status' => $request->input("status.$id"),
-            'data' => $request->input("data.$id"),
-            'observacoes' => $request->input("observacoes.$id"),
-            'ultima_alteracao' => $request->input("ultima_alteracao.$id"),
-            'usuario_alteracao' => auth()->user()->name,
-            'data_alteracao' => now(),
-            'usuario_alteracao' => auth()->user()->name,
+        Preventiva::updateOrCreate(
+            [
+                'cliente' => $request->input('cliente'),
+                'filial' => $id,
+            ],
+            [
+                'status' => $request->input("status.$id"),
+                'data' => $request->input("data.$id"),
+                'observacoes' => $request->input("observacoes.$id"),
+                'ultima_alteracao' => $request->input("ultima_alteracao.$id"),
+                'usuario_alteracao' => auth()->user()->name,
+                'data_alteracao' => now(),
+            ]
+        );
+    }
 
-        ]
-    );
-}
-
+    // Sempre retorna algo pro JS
     return response()->json([
         'success' => true,
-        'updated_at' => now()->format('d/m/Y H:i'),
-        'usuario' => auth()->user()->name,
+        'mensagem' => 'Preventiva salva com sucesso!'
     ]);
 }
+
+   
+    
 
 
     public function filiais($cliente)

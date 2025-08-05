@@ -54,14 +54,16 @@ class DashboardController extends Controller
     }
 
     public function ultimasDemandas()
-    {
-        $ultimasDemandas = Demanda::with(['cliente', 'filial'])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
+{
+    $ultimasDemandas = Demanda::with(['cliente', 'filial'])
+        ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
+        ->orderBy('created_at', 'desc')
+        ->limit(5)
+        ->get();
 
-        $html = view('dashboard._ultimas_demandas_cadastradas', compact('ultimasDemandas'))->render();
+    $html = view('dashboard._ultimas_demandas_cadastradas', compact('ultimasDemandas'))->render();
 
-        return response()->json(['html' => $html]);
-    }
+    return response()->json(['html' => $html]);
+}
+
 }

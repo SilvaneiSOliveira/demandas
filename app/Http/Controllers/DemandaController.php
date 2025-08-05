@@ -41,7 +41,7 @@ class DemandaController extends Controller
     }
 
     // PAGINÇÃO
-    public function index(Request $request)
+public function index(Request $request)
 {
     $query = Demanda::with(['cliente', 'filial']);
 
@@ -49,9 +49,11 @@ class DemandaController extends Controller
         $filtro = $request->input('filtro');
         $query->where(function ($q) use ($filtro) {
             $q->where('titulo', 'like', "%$filtro%")
-              ->orWhere('solicitante', 'like', "%$filtro%");
+              ->orWhere('solicitante', 'like', "%$filtro%")
+              ->orWhere('status', 'like', "%$filtro%");
         });
     }
+
     // Ordenar com prioridade: Aberta > Em andamento > outros, depois created_at desc
     $demandas = $query
         ->orderByRaw("FIELD(status, 'Em andamento', 'Aberta') DESC")

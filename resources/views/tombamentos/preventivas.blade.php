@@ -38,7 +38,6 @@
             </div>
 
             <div class="flex flex-col sm:flex-row sm:justify-between items-center gap-4 mt-4">
-                <div id="ultimaAlteracao" class="text-sm text-gray-500 italic">Última alteração: --</div>
                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-medium transition">
                     💾 Salvar
                 </button>
@@ -79,7 +78,6 @@
         .then(data => {
             alert('Salvo com sucesso!');
             fecharModal();
-            document.getElementById('ultimaAlteracao').innerText = 'Última alteração: ' + data.updated_at + ' por ' + data.usuario;
         }).catch(error => {
             alert('Erro ao salvar: ' + error.message);
         });
