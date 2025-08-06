@@ -7,6 +7,7 @@ use App\Models\Demanda;
 use App\Models\Cliente;
 use App\Models\Filial;
 use App\Events\DemandaAtualizada;
+use App\Models\Anexo;
 
 class DemandaController extends Controller
 {
@@ -93,7 +94,6 @@ public function index(Request $request)
         'resolucao' => $validated['resolucao']
     ]);
 
-    // Recarrega a demanda com os relacionamentos que você quer enviar no broadcast
     $demanda->load(['cliente', 'filial']);
 
     // Dispara o evento pro Pusher
@@ -102,6 +102,32 @@ public function index(Request $request)
     return redirect()->back()->with('success', 'Demanda atualizada com sucesso!');
 }
 
+public function salvarAnexo(Request $request)
+{
+    // SALVAR ANEXO Validação básica
+    $request->validate([
+        'arquivo' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx',
+        'demanda_id' => 'required|exists:demanda,id'
+    ]);
+
+    if ($request->hasFile('arquivo')) {
+        
+        $arquivo = $request->file('arquivo');
+        $nomeArquivo = time() . '_' . $arquivo->getClientOriginalName();
+        $arquivo->storeAs('public/anexos', $nomeArquivo);
+
+        Anexo::create([
+            'demanda_id'   => $request->input('demanda_id'),
+            'nome_arquivo' => $arquivo->getClientOriginalName(),
+            'caminho'      => 'storage/anexos/' . $nomeArquivo, 
+        ]);
+
+
+        return response()->json(['mensagem' => 'Anexo salvo com sucesso!']);
+    }
+
+    return response()->json(['erro' => 'Nenhum arquivo foi enviado.'], 400);
+}
 
 }
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\GraficoController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\PreventivaController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AnexoController;
 
 Auth::routes();
 
@@ -27,11 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('preventivas', PreventivaController::class);
 
-   
-   
-   
-   
-   
     Route::get('/dashboard', [DashboardController::class, 'graficos']);
     Route::put('/demandas/{id}/resolucao', [DemandaController::class, 'atualizarResolucao'])->name('demandas.atualizarResolucao');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -41,8 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/contadores', [DashboardController::class, 'contadores'])->name('dashboard.contadores');
     Route::get('/dashboard/ultimas', [DashboardController::class, 'ultimasDemandas'])->name('dashboard.ultimas'); 
    
-  
-   
 // Relatórios
     Route::prefix('relatorios')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('relatorios.dashboard');
@@ -51,8 +45,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/graficos', [GraficoController::class, 'index'])->name('relatorios.graficos');
         Route::get('/exportar-pdf', [RelatorioController::class, 'exportarPdf'])->name('relatorios.exportar.pdf');
         Route::get('/exportar-excel', [RelatorioController::class, 'exportarExcel'])->name('relatorios.exportar.excel');
-       
-
 });
     
 // Tombamentos
@@ -62,10 +54,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/preventiva/salvar', [PreventivaController::class, 'salvar'])->name('preventiva.salvar');
         Route::get('/preventiva/filiais/{cliente}', [PreventivaController::class, 'filiais'])->name('preventiva.filiais');
 });
- 
-    
+
+    Route::prefix('demandas')->group(function () {
+        Route::post('{id}/anexos', [AnexoController::class, 'salvar'])->name('anexos.salvar');
+        Route::get('{id}/anexos', [AnexoController::class, 'listar'])->name('anexos.listar');
+        Route::get('anexo/download/{anexo}', [AnexoController::class, 'download'])->name('anexos.download');
+        Route::delete('anexo/{anexo}', [AnexoController::class, 'remover'])->name('anexos.remover');
+        Route::post('/demandas/{id}/anexar', [AnexoController::class, 'anexar'])->name('demanda.anexar');
+
 });
-    
+ 
+});
     Route::get('/filiais', [FilialController::class, 'index'])->name('filiais.index');
     Route::put('/demandas/{id}/status', [DemandaController::class, 'atualizarStatus'])->name('demandas.atualizarStatus');
     Route::get('/filiais-por-cliente/{clienteId}', function ($clienteId) {
@@ -77,10 +76,7 @@ Route::middleware('auth')->group(function () {
 
 // Rota de teste opcional
     Route::get('/teste', function () {return view('teste');
- 
-
-
-});
+ });
 
 
 require __DIR__.'/auth.php';

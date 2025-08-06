@@ -56,7 +56,7 @@
                                             <td class="border border-gray-300 px-4 py-2">{{ $demanda->filial?->nome ?? 'Sem filial' }}</td>                                           
                                             <td class="border border-gray-300 px-4 py-2">
                                                 @if ($demanda->data_agendamento)
-                                                    {{ \Carbon\Carbon::parse($demanda->data_agendamento)->timezone('America/Bahia')->format('d/m/Y H:i') }}
+                                                    {{ \Carbon\Carbon::parse($demanda->data_agendamento)->timezone('America/Bahia')->format('d/m/Y') }}
                                                 @else
                                                     <span class="text-gray-400 italic">Sem data</span>
                                                 @endif

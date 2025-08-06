@@ -38,4 +38,9 @@ class Demanda extends Model
         return $this->belongsTo(Atendente::class);
     }
 
+    public function anexos()
+    {
+    return $this->hasMany(Anexo::class);
+    }
+
 }

@@ -38,10 +38,11 @@
                     <th class="px-4 py-2">ID</th>
                     <th class="px-4 py-2">SOLICITANTE</th>
                     <th class="px-4 py-2">CLIENTE / FILIAL</th>
-                    <th class="px-4 py-2">PRODUTO</th>
+                    <th class="px-4 py-2">PRODUTO</th>                   
                     <th class="px-4 py-2">STATUS</th>
                     <th class="px-4 py-2">NÍVEL</th>
                     <th class="px-4 py-2">AGEND / ATEND</th>
+                    <th class="px-4 py-2">CLASSIFICAÇÃO<th>
                 </tr>
             </thead>
             
@@ -137,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(() => {
         atualizarContadores();
         atualizarUltimasDemandas();
-    }, 5000); // Atualiza a cada 5 segundos
+    }, 10000); // Atualiza a cada 10 segundos
 });
 </script>
 @endsection

@@ -41,7 +41,6 @@
                 <input type="text" value="{{ $demanda->classificacao }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
 
-
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
                 <textarea disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2" rows="4">{{ $demanda->descricao }}</textarea>
@@ -105,7 +104,15 @@
             </button>
         </div>
     </form>
+
+        <button onclick="abrirModal()" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+            📎 Anexar arquivos
+        </button>
+        
+        @include('partials.modal_anexo')
 </div>
+
+
 @endsection
 
 <script>
@@ -116,4 +123,22 @@
             setTimeout(() => mensagem.remove(), 1000);
         }
     }, 3000);
+</script>
+
+<script>
+    function abrirModal() {
+        document.getElementById('modalAnexo').classList.remove('hidden');
+    }
+
+    function fecharModal() {
+        document.getElementById('modalAnexo').classList.add('hidden');
+    }
+
+     function abrirModalAnexos() {
+        document.getElementById('modalAnexos').classList.remove('hidden');
+    }
+
+    function fecharModalAnexos() {
+        document.getElementById('modalAnexos').classList.add('hidden');
+    }
 </script>

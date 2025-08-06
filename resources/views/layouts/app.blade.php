@@ -61,12 +61,18 @@
 
         // Mostrar loading ao clicar em links ou botões
         document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll('a, button[type="submit"]').forEach(el => {
-                el.addEventListener('click', () => {
-                    mostrarLoading();
-                });
-            });
+    document.querySelectorAll('a, button[type="submit"]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            // Se for link e tiver target="_blank", não mostra loading
+            if (el.tagName === 'A' && el.target === '_blank') {
+                return;
+            }
+
+            mostrarLoading();
         });
+    });
+});
+
     </script>
 
     <script>
