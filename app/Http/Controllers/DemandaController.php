@@ -14,7 +14,8 @@ class DemandaController extends Controller
     // Formulário de cadastro
     public function create()
     {
-        $clientes = Cliente::all(); 
+        $clientes = Cliente::orderBy('nome_cliente', 'asc')->get();
+
         return view('demandas.create', compact('clientes'));
     }
 
@@ -33,6 +34,7 @@ class DemandaController extends Controller
             'status' => 'required|string',
             'usuario_id' => 'nullable|integer',
             'solicitante' => 'nullable|string',
+            'atendente' => 'required|string',
         ]);
 
         Demanda::create($request->all());
@@ -41,17 +43,21 @@ class DemandaController extends Controller
         return redirect()->route('demandas.index')->with('success', 'Demanda cadastrada com sucesso!');
     }
 
-    // PAGINÇÃO
+    // FILTRO
 public function index(Request $request)
 {
     $query = Demanda::with(['cliente', 'filial']);
 
     if ($request->filled('filtro')) {
         $filtro = $request->input('filtro');
+
         $query->where(function ($q) use ($filtro) {
             $q->where('titulo', 'like', "%$filtro%")
               ->orWhere('solicitante', 'like', "%$filtro%")
-              ->orWhere('status', 'like', "%$filtro%");
+              ->orWhere('status', 'like', "%$filtro%")
+              ->orWhereHas('cliente', function ($qCliente) use ($filtro) {
+                  $qCliente->where('nome_cliente', 'like', "%$filtro%");
+              });
         });
     }
 

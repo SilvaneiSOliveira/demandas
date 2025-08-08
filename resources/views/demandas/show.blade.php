@@ -7,11 +7,11 @@
 <div class="w-full px-8 bg-white shadow-md rounded-lg py-8 mt-15">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Detalhes da Demanda</h2>
     
-@if(session('success'))
-    <div id="mensagem-sucesso" class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4 transition-opacity duration-1000">
-        {{ session('success') }}
-    </div>
-@endif
+    @if(session('success'))
+        <div id="mensagem-sucesso" class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4 transition-opacity duration-1000">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <form action="{{ route('demandas.atualizarStatus', $demanda->id) }}" method="POST">
         @csrf
@@ -39,6 +39,11 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Classificação</label>
                 <input type="text" value="{{ $demanda->classificacao }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Técnico</label>
+                <input type="text" value="{{ $demanda->atendente }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
 
             <div class="md:col-span-2">
@@ -96,12 +101,13 @@
                 <textarea name="resolucao" rows="4" class="w-full border rounded px-3 py-2">{{ old('resolucao', $demanda->resolucao ?? '') }}</textarea>
             </div>
         </div>
-
+        
         <div class="flex justify-end mt-6 space-x-4">
             <a href="{{ route('demandas.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition">Voltar</a>
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 💾 Salvar Alterações
             </button>
+
         </div>
     </form>
 

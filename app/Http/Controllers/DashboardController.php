@@ -55,7 +55,7 @@ class DashboardController extends Controller
 
     public function ultimasDemandas()
 {
-    $ultimasDemandas = Demanda::with(['cliente', 'filial'])
+    $ultimasDemandas = Demanda::with(['cliente', 'filial', 'atendente'])
         ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
         ->orderBy('created_at', 'desc')
         ->limit(5)

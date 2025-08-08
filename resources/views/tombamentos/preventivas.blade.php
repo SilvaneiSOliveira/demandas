@@ -8,7 +8,7 @@
 </style>
 
 <div class="p-6">
-    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">PREVENTIVA > Selecione o cliente</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">Selecione o cliente</h2>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         @foreach (['DROGARIA DA GENTE', 'AFORMULA SALVADOR', 'PLUSPHARMA', 'FLORA', 'ELEMENTAR', 'CRIAÇÃO', 'PLANETA', 'SINGULAR SALVADOR', 'SINGULAR VILAS'] as $cliente)

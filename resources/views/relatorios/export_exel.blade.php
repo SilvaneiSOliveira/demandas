@@ -1,21 +1,23 @@
 <table>
     <thead>
         <tr>
-            <th>Empresa</th>
-            <th>Técnico</th>
-            <th>Data</th>
-            <th>Solicitante</th>
-            <th>resolucao</th>
+            <th>Cliente</th>
+            <th>Filial</th>
+            <th>Atendente</th>
+            <th>Data/Atendimento</th>
+            <th>Status</th>
+            <th>Solicitante</th>   
         </tr>
     </thead>
     <tbody>
         @foreach ($demandas as $demanda)
             <tr>
-                <td>{{ $demanda->empresa->nome ?? '' }}</td>
-                <td>{{ $demanda->atendente->nome ?? '' }}</td>
+                <td>{{ $demanda->cliente->nome}}</td>
+                <td>{{ $demanda->filial->nome}}</td>
+                <td>{{ $demanda->atendente }}</td>
                 <td>{{ \Carbon\Carbon::parse($demanda->data_agendamento)->format('d/m/Y') }}</td>
-                <td>{{ $demanda->solicitante }}</td>
-                <td>{{ $demanda->resolucao }}</td>
+                <td>{{ $demanda->status}}</td>
+                <td>{{ $demanda->solicitante }}</td>    
             </tr>
         @endforeach
     </tbody>

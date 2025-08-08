@@ -42,7 +42,9 @@
                     <th class="px-4 py-2">STATUS</th>
                     <th class="px-4 py-2">NÍVEL</th>
                     <th class="px-4 py-2">AGEND / ATEND</th>
-                    <th class="px-4 py-2">CLASSIFICAÇÃO<th>
+                    <th class="px-4 py-2">CLASSIFICAÇÃO</th>
+                    <th class="px-4 py-2">TÉCNICO</th>
+                    
                 </tr>
             </thead>
             

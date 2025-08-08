@@ -26,7 +26,12 @@
             </span>
         </td>
         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($demanda->data_agendamento)->format('d/m/Y') }}</td>
-        <td class="px-4 py-2">{{ $demanda->classificacao ?? '-' }}</td>
+         <td class="px-4 py-2">{{ $demanda->classificacao ?? '-' }}</td>
+        <td class="px-4 py-2">
+            {{ $demanda->atendente ? explode(' ', $demanda->atendente)[0] : '-' }}
+        </td>
+       
+
     </tr>
 @empty
     <tr>

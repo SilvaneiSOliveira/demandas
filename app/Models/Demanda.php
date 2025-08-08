@@ -25,7 +25,7 @@ class Demanda extends Model
 
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class);
+         return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 
     public function filial()
@@ -40,7 +40,7 @@ class Demanda extends Model
 
     public function anexos()
     {
-    return $this->hasMany(Anexo::class);
+        return $this->hasMany(Anexo::class);
     }
 
 }

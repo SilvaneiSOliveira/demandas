@@ -64,14 +64,12 @@
                 <label class="block text-gray-700 font-medium mb-1">Atendente *</label>
                 <select name="atendente" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
                     <option value="">Selecione</option>
-                    {{-- @foreach($usuarios as $usuario) --}}
-                    <option value="1">Claudio Carvalho </option>
-                    <option value="1">Tauan Bastos </option>
-                    <option value="1">Tiago Ribeiro </option>
-                    <option value="1">José Iago </option>
-                    <option value="1">Silvanei Santana </option>
-                    <option value="1">Carlos Eduardo </option>
-                    {{-- @endforeach --}}
+                    <option value="Claudio Carvalho" @if(auth()->user()->name == 'Claudio Carvalho') selected @endif>Claudio Carvalho</option>
+                    <option value="Tauan Bastos" @if(auth()->user()->name == 'Tauan Bastos') selected @endif>Tauan Bastos</option>
+                    <option value="Tiago Ribeiro" @if(auth()->user()->name == 'Tiago Ribeiro') selected @endif>Tiago Ribeiro</option>
+                    <option value="Jose Iago" @if(auth()->user()->name == 'José Iago') selected @endif>José Iago</option>
+                    <option value="Silvanei Santana" @if(auth()->user()->name == 'Silvanei Santana') selected @endif>Silvanei Santana</option>
+                    <option value="Carlos Eduardo" @if(auth()->user()->name == 'Carlos Eduardo') selected @endif>Carlos Eduardo</option>
                 </select>
             </div>
 
@@ -80,20 +78,19 @@
                 <input type="text" name="titulo" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
             </div>
 
-
             <div>
                 <label class="block text-gray-700 font-medium mb-1">Data Agendamento (Atendimento)*</label>
-                <input type="date" name="data_agendamento" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
+                <input type="date" name="data_agendamento" id="data_agendamento" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
             </div>
 
             <div>
                 <label class="block text-gray-700 font-medium mb-1">Classificação *</label>
-                <select name="classificacao" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
+                <select name="classificacao" id="classificacao" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
+                    <option value="Remoto" selected>Remoto</option>
                     <option value="Presencial">Presencial</option>
-                    <option value="Remoto">Remoto</option>
                 </select>
             </div>
-
+        </div>
 
         {{-- Botões --}}
         <div class="flex justify-between mt-6">
@@ -126,6 +123,48 @@
                     filialSelect.appendChild(option);
                 });
             });
+    });
+
+    // Script para manipular a data de agendamento baseado na classificação
+    document.addEventListener('DOMContentLoaded', function() {
+        const classificacaoSelect = document.getElementById('classificacao');
+        const dataAgendamentoInput = document.getElementById('data_agendamento');
+        
+        // Função para formatar a data no formato YYYY-MM-DD
+        function formatDate(date) {
+            const d = new Date(date);
+            let month = '' + (d.getMonth() + 1);
+            let day = '' + d.getDate();
+            const year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        // Definir data atual quando for Remoto
+        function setCurrentDate() {
+            if (classificacaoSelect.value === 'Remoto') {
+                dataAgendamentoInput.value = formatDate(new Date());
+            }
+        }
+
+        // Chamar a função ao carregar a página
+        setCurrentDate();
+
+        // Ouvir mudanças no select de classificação
+        classificacaoSelect.addEventListener('change', function() {
+            if (this.value === 'Remoto') {
+                // Preencher com data atual
+                setCurrentDate();
+            } else {
+                // Limpar o campo para preenchimento manual
+                dataAgendamentoInput.value = '';
+            }
+        });
     });
 </script>
 @endsection

@@ -59,11 +59,20 @@
           <span><span class="mr-2">📊</span> <span class="sidebar-text">RELATÓRIOS</span></span>
           <span id="arrow-relatorios" class="transition-transform duration-300">></span>
         </div>
+        
         <ul id="submenu-relatorios" class="list-none pl-5 mt-1 hidden">
-          <li class="py-1"><a href="{{ route('relatorios.create') }}" class="text-white hover:text-cyan-300">Criar Relatório</a></li>
-          <li class="py-1"><a href="{{ route('relatorios.graficos') }}" class="text-white hover:text-cyan-300">Dashboard</a></li>
+          <li class="py-1">
+            <a href="{{ route('relatorios.create') }}" class="text-white hover:text-cyan-300">Criar Relatório</a>
+          </li>
+          <li class="py-1">
+            <a href="{{ route('relatorios.graficos') }}" class="text-white hover:text-cyan-300">Dashboard</a>
+          </li>
+          <li class="py-1">
+            <a href="{{ route('relatorios.analitico') }}" class="text-white hover:text-cyan-300">Analítico</a>
+          </li>
         </ul>
       </li>
+
 
       {{-- TOMBAMENTOS --}}
       <li class="cursor-pointer rounded px-3 py-2 hover:bg-cyan-500" onclick="toggleSubmenu('tombamentos')">
@@ -95,7 +104,7 @@
    </ul>
   
    {{-- RODAPÉ --}}
-    <div id="sidebarFooter" class="absolute bottom-0 left-0 w-full p-4 bg-gray-800">
+    <div id="sidebarFooter" class="absolute bottom-0 left-0 w-full p-4 bg-gray-900">
         <div class="text-sm text-gray-300">
             <div class="flex items-center gap-2 mb-1">
                 <span class="text-base">👤</span>
@@ -107,11 +116,11 @@
             <div class="flex items-center gap-2 mb-2">
                 <span class="text-base">📘</span>
                 <span class="truncate">Sistema Demandas</span>
-                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 1.2.0</span>
+                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 1.3.2</span>
             </div>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="w-full bg-red-600 text-white font-semibold px-3 py-2 rounded hover:bg-red-900">
+                <button type="submit" class="w-full bg-red-500 text-white font-semibold px-3 py-1 rounded hover:bg-red-700">
                     🔓 Sair
                 </button>
             </form>

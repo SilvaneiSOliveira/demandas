@@ -90,4 +90,10 @@ public function visualizarPdf(Request $request)
         return $query->orderBy('created_at', 'desc')->get();
     }
 
+    public function index()
+{
+    return view('relatorios.analitico'); 
+}
+
+
 }

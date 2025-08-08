@@ -12,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\PreventivaController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AnexoController;
+use App\Http\Controllers\RelatorioAnaliticoController;
 
 Auth::routes();
 
@@ -21,7 +22,7 @@ Route::get('/dashboard/data', [App\Http\Controllers\DashboardController::class, 
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {return redirect()->route('dashboard');})->name('home');
-
+    
     Route::resource('clientes', ClienteController::class);
     Route::resource('filiais', FilialController::class);
     Route::resource('demandas', DemandaController::class);
@@ -32,10 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/demandas/{id}/resolucao', [DemandaController::class, 'atualizarResolucao'])->name('demandas.atualizarResolucao');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/relatorios/exportar/pdf', [RelatorioController::class, 'exportarPdf'])->name('relatorios.exportar.pdf');
-    Route::get('/relatorios/exportar/excel', [RelatorioController::class, 'exportarExcel'])->name('relatorios.exportar.excel');
     Route::get('/relatorios/ver-pdf', [RelatorioController::class, 'visualizarPdf'])->name('relatorios.ver_pdf');
     Route::get('/dashboard/contadores', [DashboardController::class, 'contadores'])->name('dashboard.contadores');
-    Route::get('/dashboard/ultimas', [DashboardController::class, 'ultimasDemandas'])->name('dashboard.ultimas'); 
+    Route::get('/dashboard/ultimas', [DashboardController::class, 'ultimasDemandas'])->name('dashboard.ultimas');
+    
    
 // Relatórios
     Route::prefix('relatorios')->group(function () {
@@ -45,7 +46,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/graficos', [GraficoController::class, 'index'])->name('relatorios.graficos');
         Route::get('/exportar-pdf', [RelatorioController::class, 'exportarPdf'])->name('relatorios.exportar.pdf');
         Route::get('/exportar-excel', [RelatorioController::class, 'exportarExcel'])->name('relatorios.exportar.excel');
+        Route::get('/analitico', [RelatorioAnaliticoController::class, 'index'])->name('relatorios.analitico');
+       
 });
+
+  
     
 // Tombamentos
     Route::prefix('tombamentos')->group(function () {

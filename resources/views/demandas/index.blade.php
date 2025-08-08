@@ -9,7 +9,7 @@
             <form action="{{ route('demandas.index') }}" method="GET" class="mb-6">
                 <div class="flex flex-col md:flex-row gap-4 items-center">
                     <input type="text" name="filtro" value="{{ request('filtro') }}"
-                        placeholder="Buscar por título, status ou solicitante"
+                        placeholder="Buscar por título, status, cliente ou solicitante"
                         class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <button type="submit"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Buscar</button>
