@@ -27,28 +27,28 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nivel</label>
-                <input type="text" value="{{ $demanda->nivel }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->nivel }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
         </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Título</label>
-                <input type="text" value="{{ $demanda->titulo }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->titulo }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Classificação</label>
-                <input type="text" value="{{ $demanda->classificacao }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->classificacao }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Técnico</label>
-                <input type="text" value="{{ $demanda->atendente }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->atendente }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
 
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                <textarea disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2" rows="4">{{ $demanda->descricao }}</textarea>
+                <textarea class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2" rows="4">{{ $demanda->descricao }}</textarea>
             </div>
 
             <div>
@@ -74,25 +74,24 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Data Agendamento (atendimento)</label>
                 <input type="text" 
                     value="{{ $demanda->data_agendamento ? \Carbon\Carbon::parse($demanda->data_agendamento)->timezone('America/Bahia')->format('d/m/Y H:i') : 'Sem data' }}" 
-                    disabled 
                     class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
         </div>
             
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Solicitante</label>
-                <input type="text" value="{{ $demanda->solicitante }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->solicitante }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Cliente</label>
-                <input type="text" value="{{ $demanda->cliente->nome_cliente }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->cliente->nome_cliente }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Filial</label>
-                <input type="text" value="{{ $demanda->filial->nome ?? 'N/A' }}" disabled class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
+                <input type="text" value="{{ $demanda->filial->nome ?? 'N/A' }}" class="w-full bg-gray-100 border border-gray-300 rounded-md px-3 py-2">
             </div>
         </div>
 

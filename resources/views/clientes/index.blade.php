@@ -11,7 +11,14 @@
                 <input type="text" name="filtro" value="{{ request('filtro') }}" placeholder="Buscar por nome, CNPJ ou razão social"
                     class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Buscar</button>
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Buscar
+                    </button>
+
+                    <a href="{{ route('clientes.create') }}"
+                        class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                        + Cadastrar cliente
+                    </a>
             </div>
         </form>
 

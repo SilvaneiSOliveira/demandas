@@ -4,25 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Models\Contato;
 use Illuminate\Support\Facades\Log;
 
 class ClienteController extends Controller
 {
     // Listar clientes com paginação
     public function index(Request $request)
-{
-    $query = Cliente::query();
+    {
+        $query = Cliente::query();
 
-    if ($request->filled('filtro')) {
-        $filtro = $request->input('filtro');
-        $query->where('nome', 'like', "%$filtro%")
-              ->orWhere('email', 'like', "%$filtro%");
+        if ($request->filled('filtro')) {
+            $filtro = $request->input('filtro');
+            $query->where('nome_cliente', 'like', "%$filtro%")
+                  ->orWhere('cnpj', 'like', "%$filtro%")
+                  ->orWhere('razao_social', 'like', "%$filtro%");
+        }
+
+        $clientes = $query->orderBy('nome_cliente', 'asc')->paginate(10); // 👈 Aqui define a paginação
+        return view('clientes.index', compact('clientes'));
     }
-
-    $clientes = $query->paginate(10); // Aqui é a paginação
-
-    return view('clientes.index', compact('clientes'));
-}
 
     // Mostrar formulário de criação
     public function create()
@@ -31,57 +32,79 @@ class ClienteController extends Controller
     }
 
     // Salvar novo cliente
-   
-public function store(Request $request)
-{
-    try {
-        $validated = $request->validate([
-            'nome_cliente' => 'required|string|max:255|unique:clientes,nome_cliente',
-            'razao_social' => 'nullable|string|max:255',
-            'cnpj' => 'nullable|string|max:20|unique:clientes,cnpj',
-            'endereco' => 'nullable|string|max:255',
-            'bairro' => 'nullable|string|max:255',
-            'cidade' => 'nullable|string|max:255',
-            'estado' => 'nullable|string|max:2',
-            'produto' => 'nullable|array',
-            'contato_nome' => 'nullable|array',
-            'contato_cargo' => 'nullable|array',
-            'contato_telefone' => 'nullable|array',
-        ]);
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'nome_cliente' => 'required|string|max:255|unique:clientes,nome_cliente',
+                'razao_social' => 'nullable|string|max:255',
+                'cnpj' => 'nullable|string|max:20|unique:clientes,cnpj',
+                'endereco' => 'nullable|string|max:255',
+                'bairro' => 'nullable|string|max:255',
+                'cidade' => 'nullable|string|max:255',
+                'estado' => 'nullable|string|max:2',
+                'produto' => 'nullable|array',
+                'produto.*' => 'string|max:255',
+                'contatos' => 'nullable|array',
+                'contatos.*.nome' => 'required_with:contatos|string|max:255',
+                'contatos.*.cargo' => 'nullable|string|max:255',
+                'contatos.*.telefone' => 'nullable|string|max:20',
+                'contatos.*.email' => 'nullable|email|max:255',
+                'tipo_suporte' => 'nullable|array',
+                'tipo_suporte.*' => 'string|max:255',
+            ]);
+            
 
-        // Convertendo arrays em string separada por vírgula
-        $validated['produto'] = $request->has('produto') ? implode(',', $request->produto) : null;
-        $validated['contato_nome'] = $request->has('contato_nome') ? implode(',', $request->contato_nome) : null;
-        $validated['contato_cargo'] = $request->has('contato_cargo') ? implode(',', $request->contato_cargo) : null;
-        $validated['contato_telefone'] = $request->has('contato_telefone') ? implode(',', $request->contato_telefone) : null;
+            // Cria o cliente
+            $cliente = Cliente::create([
+                'nome_cliente' => $validated['nome_cliente'],
+                'razao_social' => $validated['razao_social'],
+                'cnpj' => $validated['cnpj'],
+                'endereco' => $validated['endereco'],
+                'bairro' => $validated['bairro'],
+                'cidade' => $validated['cidade'],
+                'estado' => $validated['estado'],
+                'produto' => !empty($validated['produto']) ? json_encode($validated['produto']) : null,
+                'tipo_suporte' => !empty($validated['tipo_suporte']) ? json_encode($validated['tipo_suporte']) : null,
+            ]);
 
-        Cliente::create($validated);
+            // Salva os contatos
+            if (!empty($validated['contatos'])) {
+                foreach ($validated['contatos'] as $contatoData) {
+                    $cliente->contatos()->create([
+                        'nome' => $contatoData['nome'],
+                        'cargo' => $contatoData['cargo'] ?? null,
+                        'telefone' => $contatoData['telefone'] ?? null,
+                        'email' => $contatoData['email'] ?? null,
+                    ]);
+                }
+            }
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso !');
-    } catch (\Exception $e) {
-        Log::error('Erro ao cadastrar cliente: ' . $e->getMessage());
-        return back()->withErrors($e->getMessage());
-
+            return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            Log::error('Erro ao cadastrar cliente: ' . $e->getMessage());
+            return back()->withErrors($e->getMessage());
+        }
     }
-}
 
     // Mostrar dados de um cliente específico
     public function show($id)
-{
-    $cliente = Cliente::findOrFail($id);
-    return view('clientes.show', compact('cliente'));
-}
-
-
-    // Mostrar formulário de edição
-    public function edit($id)
     {
-        $cliente = Cliente::findOrFail($id);
-        return view('clientes.edit', compact('cliente'));
+        $cliente = Cliente::with('contatos')->findOrFail($id);
+        return view('clientes.show', compact('cliente'));
     }
 
+    // Mostrar formulário de edição
+   public function edit($id)
+{
+    $cliente = Cliente::findOrFail($id);
+    $contatos = Contato::where('cliente_id', $id)->get();
+    
+    return view('clientes.edit', compact('cliente', 'contatos'));
+}
+
     // Atualizar cliente
-   public function update(Request $request, $id)
+    public function update(Request $request, $id)
 {
     try {
         $cliente = Cliente::findOrFail($id);
@@ -95,22 +118,48 @@ public function store(Request $request)
             'cidade' => 'nullable|string|max:255',
             'estado' => 'nullable|string|max:2',
             'produto' => 'nullable|array',
-            'contato_nome' => 'nullable|array',
-            'contato_cargo' => 'nullable|array',
-            'contato_telefone' => 'nullable|array',
+            'produto.*' => 'string|max:255',
+            'contatos' => 'nullable|array',
+            'contatos.*.nome' => 'required_with:contatos|string|max:255',
+            'contatos.*.cargo' => 'nullable|string|max:255',
+            'contatos.*.telefone' => 'nullable|string|max:20',
+            'contatos.*.email' => 'nullable|email|max:255',
+            'tipo_suporte' => 'nullable|array',
+            'tipo_suporte.*' => 'string|max:255',
         ]);
 
-        $validated['produto'] = $request->has('produto') ? implode(',', $request->produto) : null;
-        $validated['contato_nome'] = $request->has('contato_nome') ? implode(',', $request->contato_nome) : null;
-        $validated['contato_cargo'] = $request->has('contato_cargo') ? implode(',', $request->contato_cargo) : null;
-        $validated['contato_telefone'] = $request->has('contato_telefone') ? implode(',', $request->contato_telefone) : null;
+        // Atualiza o cliente
+        $cliente->update([
+            'nome_cliente' => $validated['nome_cliente'],
+            'razao_social' => $validated['razao_social'],
+            'cnpj' => $validated['cnpj'],
+            'endereco' => $validated['endereco'],
+            'bairro' => $validated['bairro'],
+            'cidade' => $validated['cidade'],
+            'estado' => $validated['estado'],
+            'produto' => !empty($validated['produto']) ? json_encode($validated['produto']) : null,
+            'tipo_suporte' => !empty($validated['tipo_suporte']) ? json_encode($validated['tipo_suporte']) : null,
+        ]);
 
-        $cliente->update($validated);
+        // Atualiza os contatos (primeiro remove os existentes)
+        if (!empty($validated['contatos'])) {
+    
+        $cliente->contatos()->delete();
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso, véi!');
+        foreach ($validated['contatos'] as $contatoData) {
+            $cliente->contatos()->create([
+                'nome' => $contatoData['nome'],
+                'cargo' => $contatoData['cargo'] ?? null,
+                'telefone' => $contatoData['telefone'] ?? null,
+                'email' => $contatoData['email'] ?? null,
+            ]);
+        }
+    }
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso!');
     } catch (\Exception $e) {
-        Log::error('Erro ao atualizar cliente: ' . $e->getMessage());
-        return back()->withErrors('Eita! Não conseguimos atualizar. Tente mais tarde.');
+        \Log::error('Erro ao atualizar cliente: ' . $e->getMessage());
+        return back()->withErrors('Erro ao atualizar cliente. Tente novamente.');
     }
 }
 
@@ -119,12 +168,13 @@ public function store(Request $request)
     {
         try {
             $cliente = Cliente::findOrFail($id);
+            $cliente->contatos()->delete(); // Remove os contatos primeiro
             $cliente->delete();
 
-            return redirect()->route('clientes.index')->with('success', 'Cliente removido com sucesso, viu?');
+            return redirect()->route('clientes.index')->with('success', 'Cliente e contatos removidos com sucesso!');
         } catch (\Exception $e) {
             Log::error('Erro ao deletar cliente: ' . $e->getMessage());
-            return back()->withErrors('Num deu pra deletar o cliente. Verifique se ele tá ligado a alguma demanda.');
+            return back()->withErrors('Não foi possível deletar o cliente. Verifique se há relacionamentos dependentes.');
         }
     }
 }

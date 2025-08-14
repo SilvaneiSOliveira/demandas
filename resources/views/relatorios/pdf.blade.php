@@ -36,5 +36,17 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Rodapé fixo -->
+    <div style="position: relative; font-weight: 600; font-size: 14px; margin-top: 4px;">
+        <div style="float: left;">
+            Gerado em {{ $dataGeracao }}
+        </div>
+        <div style="float: right;">
+            Total de demandas: {{ $totalDemandas }}
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
 </body>
 </html>

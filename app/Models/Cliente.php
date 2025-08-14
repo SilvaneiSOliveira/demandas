@@ -1,6 +1,5 @@
 <?php
 
-// Cliente.php
 
 namespace App\Models;
 
@@ -14,7 +13,7 @@ class Cliente extends Model
     protected $table = 'clientes';
 
     protected $fillable = [
-        'cliente_id',
+        'nome_cliente',
         'razao_social',
         'cnpj',
         'endereco',
@@ -22,9 +21,7 @@ class Cliente extends Model
         'cidade',
         'estado',
         'produto',
-        'contato_nome',
-        'contato_cargo',
-        'contato_telefone',
+        'tipo_suporte',
     ];
 
     // Relacionamento com produtos
@@ -35,10 +32,11 @@ class Cliente extends Model
 
     // Relacionamento com contatos
     public function contatos()
-    {
-        return $this->hasMany(Contato::class);
-    }
-
+{
+    return $this->hasMany(Contato::class, 'cliente_id', 'id');
+}
+    
+    // Relacionamento com filial
         public function filial()
     {
         return $this->hasMany(Filial::class);

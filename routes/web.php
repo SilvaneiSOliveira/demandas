@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\FilialController;
@@ -13,13 +14,24 @@ use App\Http\Controllers\PreventivaController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AnexoController;
 use App\Http\Controllers\RelatorioAnaliticoController;
+use App\Http\Controllers\ContatoFilialController;
+use App\Http\Controllers\ContatoController;
+
 
 Auth::routes();
 
-
+Route::post('/debug-contato-filial', function(Request $request) {
+    dd([
+        'rota' => 'debug-contato-filial',
+        'dados' => $request->all(),
+        'url' => $request->url()
+    ]);
+});
 
 Route::get('/dashboard/data', [App\Http\Controllers\DashboardController::class, 'getData'])->name('dashboard.data');
 Route::middleware('auth')->group(function () {
+
+    
 
     Route::get('/', function () {return redirect()->route('dashboard');})->name('home');
     
@@ -50,8 +62,24 @@ Route::middleware('auth')->group(function () {
        
 });
 
-  
-    
+//Contatos Filiais
+Route::prefix('contatos-filial')->name('contatos_filial.')->group(function () {
+    Route::post('/', [App\Http\Controllers\ContatoFilialController::class, 'store'])->name('store');
+    Route::get('/{contato}/edit', [App\Http\Controllers\ContatoFilialController::class, 'edit'])->name('edit');
+    Route::put('/{contato}', [App\Http\Controllers\ContatoFilialController::class, 'update'])->name('update');
+    Route::delete('/{contato}', [App\Http\Controllers\ContatoFilialController::class, 'destroy'])->name('destroy');
+});
+
+//Contatos
+       Route::prefix('contatos')->group(function () {
+       Route::post('/', [App\Http\Controllers\ContatoController::class, 'store'])->name('contatos.store');
+       Route::get('/{contato}/edit', [App\Http\Controllers\ContatoController::class, 'edit'])->name('contatos.edit');
+       Route::put('/{contato}', [App\Http\Controllers\ContatoController::class, 'update'])->name('contatos.update');
+       Route::delete('/{contato}', [App\Http\Controllers\ContatoController::class, 'destroy'])->name('contatos.destroy');
+});
+
+
+
 // Tombamentos
     Route::prefix('tombamentos')->group(function () {
         Route::get('/preventivas', [PreventivaController::class, 'index'])->name('tombamentos.preventivas');
@@ -60,6 +88,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/preventiva/filiais/{cliente}', [PreventivaController::class, 'filiais'])->name('preventiva.filiais');
 });
 
+// Anexos
     Route::prefix('demandas')->group(function () {
         Route::post('{id}/anexos', [AnexoController::class, 'salvar'])->name('anexos.salvar');
         Route::get('{id}/anexos', [AnexoController::class, 'listar'])->name('anexos.listar');

@@ -2,23 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Contato extends Model
 {
-    use HasFactory;
-
-    protected $table = 'contatos';
-
+    protected $table = 'contatos'; // Adicione esta linha
+    
     protected $fillable = [
-        'cliente_id',
         'nome',
         'cargo',
         'telefone',
+        'email',
+        'cliente_id'
     ];
 
-    public function cliente()
+    public function cliente(): BelongsTo
     {
         return $this->belongsTo(Cliente::class);
     }

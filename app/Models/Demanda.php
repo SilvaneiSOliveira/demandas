@@ -14,13 +14,11 @@ class Demanda extends Model
     'nivel',
     'classificacao',
     'data_agendamento',
-    'horario_agendamento',
     'atendente',
     'status',
-    'usuario_id',
     'solicitante',
     'resolucao',
-    'criado_em',
+    'created_at',
     ];
 
     public function cliente()

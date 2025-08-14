@@ -61,17 +61,22 @@
 
         // Mostrar loading ao clicar em links ou botões
         document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('a, button[type="submit"]').forEach(el => {
+        document.querySelectorAll('a, button[type="submit"]').forEach(el => {
         el.addEventListener('click', (e) => {
-            // Se for link e tiver target="_blank", não mostra loading
-            if (el.tagName === 'A' && el.target === '_blank') {
-                return;
-            }
+            // Se for link com target="_blank", ignora
+                    if (el.tagName === 'A' && el.target === '_blank') {
+                        return;
+                    }
+                    // Se tiver o atributo data-no-loading, ignora
+                    if (el.hasAttribute('data-no-loading')) {
+                        return;
+                    }
 
-            mostrarLoading();
+                    mostrarLoading();
+                });
+            });
         });
-    });
-});
+
 
     </script>
 
@@ -81,13 +86,13 @@
     const menu = document.getElementById("menu-lateral");
     const conteudo = document.getElementById("conteudo-principal");
 
-    if (botaoColapsar) {
-        botaoColapsar.addEventListener("click", function () {
-            menu.classList.toggle("w-64");
-            menu.classList.toggle("w-16");
-        });
-    }
-});
+        if (botaoColapsar) {
+            botaoColapsar.addEventListener("click", function () {
+                menu.classList.toggle("w-64");
+                menu.classList.toggle("w-16");
+            });
+        }
+    });
 
     </script>
 

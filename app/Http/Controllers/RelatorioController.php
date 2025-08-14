@@ -11,6 +11,8 @@ use App\Models\Relatorio;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RelatoriosExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+
 
 
 class RelatorioController extends Controller
@@ -45,7 +47,10 @@ class RelatorioController extends Controller
         ->when($request->data_fim, fn($q) => $q->whereDate('created_at', '<=', $request->data_fim))
         ->get();
 
-    $pdf = Pdf::loadView('relatorios.pdf', compact('relatorios'));
+         $totalDemandas = $relatorios->count();
+         $dataGeracao = Carbon::now()->format('d/m/Y \a\s H:i');
+
+    $pdf = Pdf::loadView('relatorios.pdf', compact('relatorios', 'totalDemandas', 'dataGeracao'));
     return $pdf->stream('relatorio_demandas.pdf');
 
     

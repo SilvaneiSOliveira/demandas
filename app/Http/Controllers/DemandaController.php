@@ -31,7 +31,7 @@ class DemandaController extends Controller
             'data_agendamento' => 'nullable|date',
             'horario_agendamento' => 'nullable|string',
             'tecnico_responsavel' => 'nullable|string',
-            'status' => 'required|string',
+            'status' => 'required|string|in:Aberta,Em andamento,Concluida',
             'usuario_id' => 'nullable|integer',
             'solicitante' => 'nullable|string',
             'atendente' => 'required|string',

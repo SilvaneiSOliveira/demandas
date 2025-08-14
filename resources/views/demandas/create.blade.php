@@ -39,7 +39,7 @@
                     <option value="1">Nível 1 -> Crítico</option>
                     <option value="2">Nível 2 -> Alto</option>
                     <option value="3">Nível 3 -> Moderado</option>
-                    <option value="3">Nível 4 -> Baixo</option>
+                    <option value="4">Nível 4 -> Baixo</option>
                 </select>
             </div>
         </div>
@@ -54,9 +54,9 @@
             <div>
                 <label class="block text-gray-700 font-medium mb-1">Status *</label>
                 <select name="status" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
-                    <option value="Aberta">Aberta</option>
-                    <option value="Em andamento">Em andamento</option>
-                    <option value="Concluida">Concluida</option>
+                    <option value="Aberta" {{ old('status', 'Aberta') == 'Aberta' ? 'selected' : '' }}>Aberta</option>
+                    <option value="Em andamento" {{ old('status') == 'Em andamento' ? 'selected' : '' }}>Em andamento</option>
+                    <option value="Concluida" {{ old('status') == 'Concluida' ? 'selected' : '' }}>Concluída</option>
                 </select>
             </div>
 
@@ -97,7 +97,7 @@
             <a href="{{ route('demandas.index') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
                 ❌ Cancelar
             </a>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" data-no-loading>
                 💾 Salvar Demanda
             </button>
         </div>
