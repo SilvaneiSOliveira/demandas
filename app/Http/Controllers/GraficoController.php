@@ -20,7 +20,7 @@ class GraficoController extends Controller
        $ultimasDemandas = Demanda::with(['cliente', 'filial'])
         ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
         ->orderBy('created_at', 'desc')
-        ->limit(5)
+        ->limit(10)
         ->get();
 
 

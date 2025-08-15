@@ -116,7 +116,7 @@
             <div class="flex items-center gap-2 mb-2">
                 <span class="text-base">📘</span>
                 <span class="truncate">Sistema Demandas</span>
-                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 3.5.6</span>
+                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 3.5.8</span>
             </div>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -140,6 +140,7 @@
 
     function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
     const texts = document.querySelectorAll('.sidebar-text');
     const title = document.querySelector('.sidebar-title');
     const arrow = document.getElementById('arrowToggle');
@@ -148,6 +149,7 @@
 
     sidebar.classList.toggle('w-64');
     sidebar.classList.toggle('w-20');
+    
     
     // ADICIONA OU REMOVE A CLASSE collapsed 
     sidebar.classList.toggle('collapsed');
@@ -168,3 +170,5 @@
 }
 
 </script>
+
+

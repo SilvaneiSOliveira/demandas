@@ -65,7 +65,7 @@
                 <select name="atendente" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
                     <option value="">Selecione</option>
                     <option value="Claudio Carvalho" @if(auth()->user()->name == 'Claudio Carvalho') selected @endif>Claudio Carvalho</option>
-                    <option value="Tauan Bastos" @if(auth()->user()->name == 'Tauan Bastos') selected @endif>Tauan Bastos</option>
+                    <option value="Tauan Costa" @if(auth()->user()->name == 'Tauan Costa') selected @endif>Tauan Costa</option>
                     <option value="Tiago Ribeiro" @if(auth()->user()->name == 'Tiago Ribeiro') selected @endif>Tiago Ribeiro</option>
                     <option value="Jose Iago" @if(auth()->user()->name == 'José Iago') selected @endif>José Iago</option>
                     <option value="Silvanei Santana" @if(auth()->user()->name == 'Silvanei Santana') selected @endif>Silvanei Santana</option>
@@ -89,6 +89,11 @@
                     <option value="Remoto" selected>Remoto</option>
                     <option value="Presencial">Presencial</option>
                 </select>
+            </div>
+
+             <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Resolução</label>
+                <textarea name="resolucao" rows="4" class="w-full border rounded px-3 py-2">{{ old('resolucao', $demanda->resolucao ?? '') }}</textarea>
             </div>
         </div>
 

@@ -120,7 +120,7 @@
 
         <!-- PRODUTO UTILIZADO -->
         <div class="flex-1 min-w-[300px]">
-            <h3 class="text-lg font-semibold text-gray-600 mb-4">💻 Produto Utilizado</h3>
+            <h3 class="text-lg font-semibold text-gray-600 mb-4">📦 Produto Utilizado</h3>
             <label class="block text-sm font-medium text-gray-700 mb-2">Selecione os Produtos</label>
             
             <div class="relative">

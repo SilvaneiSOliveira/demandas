@@ -58,7 +58,7 @@ class DashboardController extends Controller
     $ultimasDemandas = Demanda::with(['cliente', 'filial', 'atendente'])
         ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
         ->orderBy('created_at', 'desc')
-        ->limit(5)
+        ->limit(10)
         ->get();
 
     $html = view('dashboard._ultimas_demandas_cadastradas', compact('ultimasDemandas'))->render();

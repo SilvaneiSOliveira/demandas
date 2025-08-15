@@ -3,7 +3,7 @@
 @section('content')
 <div class="w-full px-8 bg-white shadow-md rounded-lg py-8 mt-15">
     <div class="bg-white shadow-md rounded-lg p-8">
-        <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">Editar Cliente</h2>
+        <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">Cliente Selecionado</h2>
 
         @if ($errors->any())
             <div class="bg-red-100 text-red-700 p-4 rounded mb-6">

@@ -26,9 +26,11 @@
         <p id="total" class="text-3xl font-bold text-white">{{ $total }}</p>
    </div>
 </div>
-
+    <!-- aqui fica a div do grafico de evolução de demandas -->
+    
+    
     <!-- Últimas Demandas -->
-<div class="bg-white rounded-2xl shadow p-4 mb-6">
+<div class="bg-white rounded-2xl shadow p-8 mb-6">
     <h2 class="text-xl font-semibold text-gray-700 mb-4">Últimas Demandas</h2>
 
     <div class="overflow-x-auto">
@@ -38,7 +40,7 @@
                     <th class="px-4 py-2">ID</th>
                     <th class="px-4 py-2">SOLICITANTE</th>
                     <th class="px-4 py-2">CLIENTE / FILIAL</th>
-                    <th class="px-4 py-2">PRODUTO</th>                   
+                    <th class="px-4 py-2">TIPO-SUPORTE</th>                   
                     <th class="px-4 py-2">STATUS</th>
                     <th class="px-4 py-2">NÍVEL</th>
                     <th class="px-4 py-2">AGEND / ATEND</th>
@@ -54,14 +56,6 @@
 
         </table>
     </div>
-</div>
-
-
-   
-    <!-- Gráfico Evolução das Demandas -->
-<div class="bg-white rounded-2xl shadow p-4 mb-6">
-    <h2 class="text-xl font-semibold text-gray-700 mb-4">Evolução das Demandas</h2>
-    <canvas id="graficoEvolucaoDemandas" height="100"></canvas>
 </div>
 
 @endsection

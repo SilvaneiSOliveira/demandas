@@ -67,52 +67,53 @@
             </div>
 
             <!-- TIPO DE SUPORTE E PRODUTOS -->
+             <div class="mt-8 mb-8">
             <div class="flex flex-wrap gap-8 mb-8">
                 <!-- TIPO DE SUPORTE -->
                 <div class="flex-1 min-w-[300px]">
-    <h3 class="text-lg font-semibold text-gray-600 mb-4">💻 Tipo de Suporte</h3>
-    <label class="block text-sm font-medium text-gray-700 mb-2">Selecione o Tipo</label>
+            <h3 class="text-lg font-semibold text-gray-600 mb-4">💻 Tipo de Suporte</h3>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Selecione o Tipo</label>
     
-    <div class="relative">
-        <div class="w-full p-3 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400 transition-colors"
-            onclick="toggleDropdown('supportDropdown', 'supportIcon')" id="supportButton">
-            <div class="flex justify-between items-center">
-                <span id="supportSelectedText" class="text-gray-700">
-                    @php
-                        $tiposSuporte = is_string($filial->tipo_suporte) ? json_decode($filial->tipo_suporte, true) : $filial->tipo_suporte;
-                        $tiposSuporte = $tiposSuporte ?? [];
-                    @endphp
-                    @if(count($tiposSuporte) > 0)
-                        {{ count($tiposSuporte) == 1 ? $tiposSuporte[0] : count($tiposSuporte) . ' tipos selecionados' }}
-                    @else
-                        Clique para selecionar...
-                    @endif
-                </span>
-                <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="supportIcon">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </div>
-        </div>
+                    <div class="relative">
+                        <div class="w-full p-3 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400 transition-colors"
+                            onclick="toggleDropdown('supportDropdown', 'supportIcon')" id="supportButton">
+                            <div class="flex justify-between items-center">
+                                <span id="supportSelectedText" class="text-gray-700">
+                                    @php
+                                        $tiposSuporte = is_string($filial->tipo_suporte) ? json_decode($filial->tipo_suporte, true) : $filial->tipo_suporte;
+                                        $tiposSuporte = $tiposSuporte ?? [];
+                                    @endphp
+                                    @if(count($tiposSuporte) > 0)
+                                        {{ count($tiposSuporte) == 1 ? $tiposSuporte[0] : count($tiposSuporte) . ' tipos selecionados' }}
+                                    @else
+                                        Clique para selecionar...
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="supportIcon">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
 
-        <div id="supportDropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-            <div class="p-2">
-                @php
-                    $tiposSupporte = ['Rede e Computadores', 'Consys', 'Formula Certa', 'Sorted', 'Sim', 'GF', 'Seleção Municipal'];
-                    $tiposSelecionados = is_string($filial->tipo_suporte) ? json_decode($filial->tipo_suporte, true) : $filial->tipo_suporte;
-                    $tiposSelecionados = $tiposSelecionados ?? [];
-                @endphp
-                @foreach($tiposSupporte as $tipo)
-                    <label class="flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer">
-                        <input type="checkbox" name="tipo_suporte[]" value="{{ $tipo }}" 
-                               {{ in_array($tipo, $tiposSelecionados) ? 'checked' : '' }}
-                               class="support-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3">
-                        <span class="text-sm">{{ $tipo }}</span>
-                    </label>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
+                        <div id="supportDropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            <div class="p-2">
+                                @php
+                                    $tiposSupporte = ['Rede e Computadores', 'Consys', 'Formula Certa', 'Sorted', 'Sim', 'GF', 'Seleção Municipal'];
+                                    $tiposSelecionados = is_string($filial->tipo_suporte) ? json_decode($filial->tipo_suporte, true) : $filial->tipo_suporte;
+                                    $tiposSelecionados = $tiposSelecionados ?? [];
+                                @endphp
+                                @foreach($tiposSupporte as $tipo)
+                                    <label class="flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer">
+                                        <input type="checkbox" name="tipo_suporte[]" value="{{ $tipo }}" 
+                                            {{ in_array($tipo, $tiposSelecionados) ? 'checked' : '' }}
+                                            class="support-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3">
+                                        <span class="text-sm">{{ $tipo }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- PRODUTOS -->
                 <div class="flex-1 min-w-[300px]">

@@ -23,9 +23,9 @@
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select name="status" class="form-control" required>
-                <option value="aberta" {{ $demanda->status == 'aberta' ? 'selected' : '' }}>Aberta</option>
-                <option value="em andamento" {{ $demanda->status == 'em andamento' ? 'selected' : '' }}>Em andamento</option>
-                <option value="concluída" {{ $demanda->status == 'concluída' ? 'selected' : '' }}>Concluída</option>
+                <option value="Aberta" {{ $demanda->status == 'Aberta' ? 'selected' : '' }}>Aberta</option>
+                <option value="Em andamento" {{ $demanda->status == 'Em andamento' ? 'selected' : '' }}>Em andamento</option>
+                <option value="Concluida" {{ $demanda->status == 'Concluida' ? 'selected' : '' }}>Concluída</option>
             </select>
         </div>
 
