@@ -24,37 +24,6 @@
     font-weight: bold;
 }
 
-/* MENU-LATERAL */
-
-/* Garante que o menu lateral ocupe toda a altura */
-#sidebar {
-  position: fixed;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background-color: #0f172a; 
-  transition: width 0.3s ease;
-}
-
-/* Estilo para o conteúdo rolável do menu */
-#sidebar > div {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Remove a rolagem da página principal */
-html, body {
-  overflow-x: hidden;
-}
-#conteudo-principal {
-  transition: margin-left 0.3s ease;
-  margin-left: 16rem; /* igual w-64 */
-}
-
-#conteudo-principal.menu-colapsado {
-  margin-left: 5rem; /* igual w-20 */
-}
 
  /* Estilo Loading */  
 .overlay {
@@ -90,4 +59,121 @@ html, body {
     animation: fade-in 0.4s ease-out both;
 }
 
+ /* CSS customizado para controle de status */
+        #ativo {
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
 
+        /* Quando status está ATIVO - Verde */
+        #ativo.status-ativo {
+            background-color: #dcfce7 !important;
+            color: #166534 !important;
+            border-color: #22c55e !important;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+        }
+
+        /* Quando status está DESATIVADO - Cinza */
+        #ativo.status-desativado {
+            background-color: #f3f4f6 !important;
+            color: #374151 !important;
+            border-color: #9ca3af !important;
+            box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.1);
+        }
+
+        #ativo:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #ativo:focus {
+            outline: none;
+            ring: 2px;
+            ring-offset: 2px;
+        }
+
+        /* Estilo para formulário desabilitado */
+        .form-disabled {
+            position: relative;
+        }
+
+        .form-disabled::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .form-disabled input:not(#ativo),
+        .form-disabled select:not(#ativo),
+        .form-disabled textarea:not(#ativo),
+        .form-disabled button:not(.status-control) {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #f9fafb !important;
+            color: #6b7280 !important;
+            cursor: not-allowed !important;
+        }
+
+        .form-disabled .dropdown-container {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Animação suave para mudanças de estado */
+        .form-container {
+            transition: all 0.3s ease;
+        }
+
+        /* Overlay para bloquear interações */
+        .disabled-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(1px);
+        }
+
+        .disabled-overlay.hidden {
+            display: none;
+        }
+
+        /* Notificação */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .notification.warning {
+            background-color: #fffbeb;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }

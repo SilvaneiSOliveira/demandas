@@ -116,7 +116,7 @@
             <div class="flex items-center gap-2 mb-2">
                 <span class="text-base">📘</span>
                 <span class="truncate">Sistema Demandas</span>
-                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 3.5.8</span>
+                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 3.5.10</span>
             </div>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -130,44 +130,207 @@
 
 <!-- Scripts -->
 <script>
-    function toggleSubmenu(nome) {
-      const submenu = document.getElementById('submenu-' + nome);
-      const arrow = document.getElementById('arrow-' + nome);
+    // Variáveis globais
+let isMobile = false;
+let isTablet = false;
 
-      submenu.classList.toggle('hidden');
-      arrow.style.transform = submenu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
+// Detectar tamanho da tela
+function detectScreenSize() {
+    const width = window.innerWidth;
+    isMobile = width <= 767;
+    isTablet = width > 767 && width <= 1023;
+}
+
+// Inicialização quando a página carrega
+document.addEventListener('DOMContentLoaded', function() {
+    detectScreenSize();
+    initResponsiveSidebar();
+    
+    // Listener para mudanças de tamanho de tela
+    window.addEventListener('resize', handleResize);
+});
+
+// Inicializar sidebar responsivo
+function initResponsiveSidebar() {
+    const body = document.body;
+    
+    if (isMobile) {
+        // Adicionar botão hamburger se não existir
+        if (!document.querySelector('.mobile-menu-button')) {
+            const hamburgerButton = createHamburgerButton();
+            body.appendChild(hamburgerButton);
+        }
+        
+        // Adicionar overlay se não existir
+        if (!document.querySelector('.sidebar-overlay')) {
+            const overlay = createOverlay();
+            body.appendChild(overlay);
+        }
     }
+}
 
-    function toggleSidebar() {
+// Criar botão hamburger
+function createHamburgerButton() {
+    const button = document.createElement('button');
+    button.className = 'mobile-menu-button';
+    button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    `;
+    button.onclick = toggleMobileSidebar;
+    return button;
+}
+
+// Criar overlay
+function createOverlay() {
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    overlay.onclick = closeMobileSidebar;
+    return overlay;
+}
+
+// Toggle do sidebar no mobile
+function toggleMobileSidebar() {
+    if (!isMobile) return;
+    
     const sidebar = document.getElementById('sidebar');
     const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (sidebar.classList.contains('mobile-active')) {
+        closeMobileSidebar();
+    } else {
+        openMobileSidebar();
+    }
+}
+
+// Abrir sidebar mobile
+function openMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    sidebar.classList.add('mobile-active');
+    if (overlay) overlay.classList.add('active');
+    
+    // Prevenir scroll do body
+    document.body.style.overflow = 'hidden';
+}
+
+// Fechar sidebar mobile
+function closeMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    sidebar.classList.remove('mobile-active');
+    if (overlay) overlay.classList.remove('active');
+    
+    // Restaurar scroll do body
+    document.body.style.overflow = '';
+}
+
+// Toggle do sidebar (função original atualizada)
+function toggleSidebar() {
+    // No mobile, usar função específica
+    if (isMobile) {
+        toggleMobileSidebar();
+        return;
+    }
+    
+    const sidebar = document.getElementById('sidebar');
     const texts = document.querySelectorAll('.sidebar-text');
     const title = document.querySelector('.sidebar-title');
     const arrow = document.getElementById('arrowToggle');
     const wrapper = document.getElementById('wrapper');
+    const conteudoPrincipal = document.getElementById('conteudo-principal');
     const footer = document.getElementById('sidebarFooter'); 
 
+    // Toggle classes do Tailwind
     sidebar.classList.toggle('w-64');
     sidebar.classList.toggle('w-20');
-    
-    
-    // ADICIONA OU REMOVE A CLASSE collapsed 
     sidebar.classList.toggle('collapsed');
 
+    // Esconder/mostrar textos
     texts.forEach(el => el.classList.toggle('hidden'));
     if (title) title.classList.toggle('hidden');
-    arrow.classList.toggle('rotate-180');
+    if (arrow) arrow.classList.toggle('rotate-180');
 
-    wrapper.classList.toggle('pl-64');
-    wrapper.classList.toggle('pl-20');
+    // Ajustar margem do conteúdo principal
+    if (wrapper) {
+        wrapper.classList.toggle('pl-64');
+        wrapper.classList.toggle('pl-20');
+    }
+    
+    if (conteudoPrincipal) {
+        conteudoPrincipal.classList.toggle('menu-colapsado');
+    }
 
-    // ESCONDE O RODAPÉ JUNTO COM A SIDEBAR
-    if (sidebar.classList.contains('collapsed')) {
-        footer.classList.add('hidden');
-    } else {
-        footer.classList.remove('hidden');
+    // Controlar footer
+    if (footer) {
+        if (sidebar.classList.contains('collapsed')) {
+            footer.classList.add('hidden');
+        } else {
+            footer.classList.remove('hidden');
+        }
     }
 }
+
+// Toggle de submenu (função original mantida)
+function toggleSubmenu(nome) {
+    const submenu = document.getElementById('submenu-' + nome);
+    const arrow = document.getElementById('arrow-' + nome);
+
+    if (submenu && arrow) {
+        submenu.classList.toggle('hidden');
+        arrow.style.transform = submenu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
+    }
+}
+
+// Gerenciar redimensionamento da tela
+function handleResize() {
+    const wasMobile = isMobile;
+    detectScreenSize();
+    
+    // Se mudou de mobile para desktop ou vice-versa
+    if (wasMobile !== isMobile) {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const hamburger = document.querySelector('.mobile-menu-button');
+        
+        if (isMobile) {
+            // Mudou para mobile
+            sidebar.classList.remove('collapsed', 'w-20');
+            sidebar.classList.add('w-64');
+            closeMobileSidebar();
+            initResponsiveSidebar();
+        } else {
+            // Mudou para desktop
+            sidebar.classList.remove('mobile-active');
+            if (overlay) overlay.classList.remove('active');
+            if (hamburger) hamburger.style.display = 'none';
+            document.body.style.overflow = '';
+            
+            // Restaurar estado normal do sidebar
+            const conteudoPrincipal = document.getElementById('conteudo-principal');
+            if (conteudoPrincipal) {
+                conteudoPrincipal.classList.remove('menu-colapsado');
+            }
+        }
+    }
+}
+
+// Fechar sidebar ao clicar em links (apenas no mobile)
+document.addEventListener('click', function(e) {
+    if (isMobile && e.target.tagName === 'A' && e.target.closest('#sidebar')) {
+        setTimeout(closeMobileSidebar, 100);
+    }
+});
+
+// Fechar sidebar com tecla ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isMobile) {
+        closeMobileSidebar();
+    }
+});
 
 </script>
 

@@ -30,7 +30,7 @@
             @include('layouts.navigation') <!-- Menu lateral -->
 
             <!-- Conteúdo principal com ID pra animar a margem -->
-            <div id="wrapper" class="flex-1 flex flex-col transition-all duration-300 pl-64">
+            <div id="wrapper" class="flex-1 flex flex-col transition-all duration-300">
                 @isset($header)
                     <header class="bg-white shadow mb-4 rounded p-4">
                         <div class="w-full mx-auto">
@@ -39,15 +39,11 @@
                     </header>
                 @endisset
 
-                <main class="flex-1 p-6 overflow-auto">
+                <main id="conteudo-principal" class="flex-1 p-6 overflow-auto transition-all duration-300">
                     @yield('content')
                 </main>
             </div>
        </div>
-
-
-
-
 
     {{-- LOADING SCRIPT --}}
     <script>

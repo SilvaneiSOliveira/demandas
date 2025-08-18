@@ -19,7 +19,7 @@
                     <div class="flex flex-col md:flex-row gap-4 items-center">
                         <button id="btn-mais-filtros" 
                             type="button" 
-                           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+                           class="bg-blue-300 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
                             <span id="texto-btn">Mais Filtros</span>
                             <svg id="seta-filtros" class="w-4 h-4 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>

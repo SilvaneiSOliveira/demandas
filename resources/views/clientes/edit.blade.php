@@ -1,23 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="w-full px-8 bg-white shadow-md rounded-lg py-8 mt-15">
-    <div class="bg-white shadow-md rounded-lg p-8">
-        <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">Cliente Selecionado</h2>
+        <div class="w-full px-8 bg-white shadow-md rounded-lg py-8 mt-15">
+            <div class="bg-white shadow-md rounded-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">Cliente Selecionado</h2>
 
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>• {{ $error }}</li>
-                    @endforeach
-                </ul>
+                @if ($errors->any())
+                    <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>• {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            
+                <form id="formContainer" action="{{ route('clientes.update', $cliente->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                <div class="mb-4 flex justify-end items-center"> 
+            
+                <!-- STATUS -->
+            <div class="flex items-center gap-2"> 
+                <label for="ativo" class="text-sm font-medium text-gray-700">
+                    Status
+                </label>
+                <select name="ativo" id="ativo" 
+                        class="w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    <option value="1" {{ $cliente->ativo ? 'selected' : '' }}>Ativo</option>
+                    <option value="0" {{ !$cliente->ativo ? 'selected' : '' }}>Desativado</option>
+                </select>
             </div>
-        @endif
 
-        <form action="{{ route('clientes.update', $cliente->id) }}" method="POST">
-            @csrf
-            @method('PUT')
+        </div>
 
             <!-- DADOS DO CLIENTE -->
             <div class="mb-8">
@@ -362,6 +378,114 @@
 </div>
 
 <script>
+
+    // Função principal para controlar o status do cliente
+    function toggleClientStatus(isActive) {
+        const formContainer = document.getElementById('formContainer');
+        const overlay = document.getElementById('disabledOverlay');
+        const clientInputs = document.querySelectorAll('.client-input');
+        const clientButtons = document.querySelectorAll('.client-button');
+        const statusSelect = document.getElementById('ativo');
+
+        if (!isActive) {
+            // Cliente desativado - bloqueia tudo
+            formContainer.classList.add('form-disabled');
+            overlay.classList.remove('hidden');
+            
+            // Desabilita todos os campos exceto o select de status
+            clientInputs.forEach(input => {
+                input.disabled = true;
+                input.style.pointerEvents = 'none';
+            });
+            
+            clientButtons.forEach(button => {
+                button.disabled = true;
+                button.style.pointerEvents = 'none';
+            });
+            
+            // Mantém apenas o select de status ativo
+            statusSelect.disabled = false;
+            statusSelect.style.pointerEvents = 'auto';
+            statusSelect.style.opacity = '1';
+            
+        } else {
+            // Cliente ativo - libera tudo
+            formContainer.classList.remove('form-disabled');
+            overlay.classList.add('hidden');
+            
+            // Habilita todos os campos
+            clientInputs.forEach(input => {
+                input.disabled = false;
+                input.style.pointerEvents = 'auto';
+            });
+            
+            clientButtons.forEach(button => {
+                button.disabled = false;
+                button.style.pointerEvents = 'auto';
+            });
+        }
+    }
+
+    // Event listener para mudança de status
+    document.getElementById('ativo').addEventListener('change', function() {
+        const isActive = this.value === '1';
+        toggleClientStatus(isActive);
+        
+        // Mostra notificação visual
+        if (!isActive) {
+            showNotification('Cliente desativado - Formulário bloqueado para edição', 'warning');
+        } else {
+            showNotification('Cliente ativado - Formulário liberado para edição', 'success');
+        }
+    });
+
+    // Função para mostrar notificações
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all transform translate-x-0 ${
+            type === 'success' ? 'bg-green-100 text-green-800 border border-green-300' : 
+            'bg-yellow-100 text-yellow-800 border border-yellow-300'
+        }`;
+        notification.innerHTML = `
+            <div class="flex items-center">
+                <span class="mr-2">${type === 'success' ? '✅' : '⚠️'}</span>
+                <span>${message}</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove após 3 segundos
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
+    // Inicialização quando a página carrega
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('ativo');
+        const isActive = statusSelect.value === '1';
+        toggleClientStatus(isActive);
+    });
+
+    // Função para toggle do dropdown (modificada para respeitar o status)
+    function toggleDropdown(dropdownId, iconId) {
+        const formContainer = document.getElementById('formContainer');
+        if (formContainer.classList.contains('form-disabled')) {
+            return; // Não permite abrir dropdown se desativado
+        }
+        
+        const dropdown = document.getElementById(dropdownId);
+        const icon = document.getElementById(iconId);
+        
+        dropdown.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+    }
+
+
     // Função para toggle do dropdown
     function toggleDropdown(dropdownId, iconId) {
         const dropdown = document.getElementById(dropdownId);
@@ -474,6 +598,33 @@
             document.getElementById('productIcon').classList.remove('rotate-180');
         }
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('ativo');
+    const formContainer = document.getElementById('formContainer');
+    
+    function updateStatusColors() {
+        const isActive = statusSelect.value === '1';
+        
+        // Remove classes anteriores
+        statusSelect.classList.remove('status-ativo', 'status-desativado');
+        
+        // Adiciona a classe correta
+        if (isActive) {
+            statusSelect.classList.add('status-ativo');
+            formContainer?.classList.remove('disabled');
+        } else {
+            statusSelect.classList.add('status-desativado');
+            formContainer?.classList.add('disabled');
+        }
+    }
+    
+    updateStatusColors();
+    statusSelect.addEventListener('change', updateStatusColors);
+});
+
 </script>
 
 @endsection

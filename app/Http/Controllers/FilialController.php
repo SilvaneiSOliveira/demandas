@@ -19,10 +19,13 @@ class FilialController extends Controller
     if ($request->filled('filtro')) {
         $filtro = $request->input('filtro');
         $query->where('nome', 'like', "%$filtro%")
-              ->orWhere('cidade', 'like', "%$filtro%");
+              ->orWhere('cidade', 'like', "%$filtro%")
+               ->orWhereHas('cliente', function ($q) use ($filtro) {
+              $q->where('nome_cliente', 'like', "%$filtro%");
+          });
     }
 
-    $filiais = $query->orderBy('nome', 'asc')->paginate(10); // 👈 Aqui define a paginação
+    $filiais = $query->orderBy('nome', 'asc')->paginate(13); // 👈 Aqui define a paginação
 
     return view('filiais.index', compact('filiais'));
 }
@@ -70,6 +73,7 @@ class FilialController extends Controller
         'bairro' => $validated['bairro'],
         'produto' => !empty($validated['produto']) ? json_encode($validated['produto']) : null,
         'tipo_suporte' => !empty($validated['tipo_suporte']) ? json_encode($validated['tipo_suporte']) : null,
+        'ativo' => true, // sempre ativo no cadastro
 
     ]);
 
@@ -111,6 +115,7 @@ public function edit($id)
    // Atualizar Filial
    public function update(Request $request, $id)
 {
+    
     try {
         $filial = Filial::findOrFail($id);
 
@@ -132,8 +137,10 @@ public function edit($id)
             'contatos_filial.*.email' => 'nullable|email|max:255',
             'tipo_suporte' => 'nullable|array',
             'tipo_suporte.*' => 'string|max:255',
+            'ativo' => 'required|boolean', // 👈 valida status
+            
         ]);
-
+        
         // Atualiza os dados da filial
         $filial->update([
             'cliente_id' => $validated['cliente_id'],
@@ -146,22 +153,10 @@ public function edit($id)
             'bairro' => $validated['bairro'],
             'produto' => isset($validated['produto']) ? json_encode($validated['produto']) : null,
             'tipo_suporte' => isset($validated['tipo_suporte']) ? json_encode($validated['tipo_suporte']) : null,
+            'ativo' => $validated['ativo'], 
         ]);
 
-        // Atualiza contatos: remove os antigos e cria os novos
-        $filial->contatos_filial()->delete();
-        if (!empty($validated['contatos_filial'])) {
-            foreach ($validated['contatos_filial'] as $contatoData) {
-                $filial->contatos_filial()->create([
-                    'nome' => $contatoData['nome'],
-                    'cargo' => $contatoData['cargo'] ?? null,
-                    'telefone' => $contatoData['telefone'] ?? null,
-                    'email' => $contatoData['email'] ?? null,
-                ]);
-            }
-        }
-
-        return redirect()->route('filiais.index')->with('success', 'Filial atualizada com sucesso!');
+       return redirect()->route('filiais.index')->with('success', 'Filial atualizada com sucesso!');
 
     } catch (\Exception $e) {
         \Log::error('Erro ao atualizar filial: '.$e->getMessage());

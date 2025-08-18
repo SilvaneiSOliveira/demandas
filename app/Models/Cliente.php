@@ -22,6 +22,10 @@ class Cliente extends Model
         'estado',
         'produto',
         'tipo_suporte',
+        'ativo',
+    ];
+    protected $casts = [
+    'ativo' => 'boolean',
     ];
 
     // Relacionamento com produtos

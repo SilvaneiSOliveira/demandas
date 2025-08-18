@@ -53,8 +53,7 @@
                     </div>
                 </div>
             </div>
-
-           
+    
         <div class="flex flex-wrap gap-8 mb-8">
         <!-- TIPO DE SUPORTE -->
         <div class="flex-1 min-w-[300px]">

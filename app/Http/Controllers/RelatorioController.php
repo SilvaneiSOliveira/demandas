@@ -29,7 +29,7 @@ class RelatorioController extends Controller
             ->when($request->data_inicio, fn($query) => $query->whereDate('created_at', '>=', $request->data_inicio))
             ->when($request->data_fim, fn($query) => $query->whereDate('created_at', '<=', $request->data_fim))
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(13);
 
         return view('relatorios.create', compact('clientes', 'filiais', 'relatorios'));
     }

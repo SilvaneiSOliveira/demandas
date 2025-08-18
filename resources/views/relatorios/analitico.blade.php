@@ -30,7 +30,7 @@
     </div>
 
     <!-- Técnicos com mais atendimentos -->
-    <div class="bg-white p-4 rounded shadow col-span-1 md:col-span-2">
+    <div class="bg-white p-4 rounded shadow">
       <h3 class="font-semibold mb-2">Técnicos com Mais Atendimentos</h3>
       <canvas id="atendentesChart"></canvas>
     </div>
@@ -113,7 +113,7 @@
 
   // Técnicos com mais atendimentos
   new Chart(document.getElementById('atendentesChart'), {
-    type: 'radar',
+    type: 'bar',
     data: {
       labels: @json($nomesAtendentes),
       datasets: [{

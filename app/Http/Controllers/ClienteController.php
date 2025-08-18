@@ -66,6 +66,7 @@ class ClienteController extends Controller
                 'estado' => $validated['estado'],
                 'produto' => !empty($validated['produto']) ? json_encode($validated['produto']) : null,
                 'tipo_suporte' => !empty($validated['tipo_suporte']) ? json_encode($validated['tipo_suporte']) : null,
+                'ativo' => true, // sempre ativo no cadastro
             ]);
 
             // Salva os contatos
@@ -126,6 +127,7 @@ class ClienteController extends Controller
             'contatos.*.email' => 'nullable|email|max:255',
             'tipo_suporte' => 'nullable|array',
             'tipo_suporte.*' => 'string|max:255',
+            'ativo' => 'required|boolean', // 👈 valida status
         ]);
 
         // Atualiza o cliente
@@ -139,6 +141,7 @@ class ClienteController extends Controller
             'estado' => $validated['estado'],
             'produto' => !empty($validated['produto']) ? json_encode($validated['produto']) : null,
             'tipo_suporte' => !empty($validated['tipo_suporte']) ? json_encode($validated['tipo_suporte']) : null,
+            'ativo' => $validated['ativo'], 
         ]);
 
         // Atualiza os contatos (primeiro remove os existentes)

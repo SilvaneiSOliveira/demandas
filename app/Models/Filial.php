@@ -22,12 +22,14 @@ class Filial extends Model
         'estado',
         'produto',
         'tipo_suporte',
+        'ativo',
     ];
 
     // Cast para arrays JSON
     protected $casts = [
         'tipo_suporte' => 'array',
         'produto' => 'array',
+        'ativo' => 'boolean',
     ];
 
 

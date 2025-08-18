@@ -9,20 +9,26 @@
         <form action="{{ route('filiais.index') }}" method="GET" class="mb-6">
             <div class="flex flex-col md:flex-row gap-4 items-center">
                 <input type="text" name="filtro" value="{{ request('filtro') }}"
-                    placeholder="Buscar por nome ou cidade"
+                    placeholder="Buscar por nome, cliente ou cidade"
                     class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
                 <button type="submit"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         Buscar
-                    </button>
+                </button>
 
-                    <a href="{{ route('filiais.create') }}"
-                        class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-                        + Cadastrar Filial
-                    </a>
+                <a href="{{ route('filiais.index') }}"
+                class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">
+                Limpar Filtro
+                </a>
+
+                <a href="{{ route('filiais.create') }}"
+                class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                + Cadastrar Filial
+                </a>
             </div>
-            
         </form>
+
 
         {{-- Mensagem de sucesso --}}
         @if (session('success'))

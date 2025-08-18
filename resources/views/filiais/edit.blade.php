@@ -14,12 +14,27 @@
             </div>
         @endif
         
-        <form action="{{ route('contatos_filial.store') }}" method="POST">
+        <form action="{{ route('filiais.update', $filial->id) }}" method="POST">
             @csrf
-            <input type="hidden" name="filial_id" value="{{ $filial->id }}">
-           
+            <input type="hidden" name="cliente_id" value="{{ $filial->cliente_id }}">
+            @method('PUT')
             
+            <!-- STATUS -->
+            <div class="mb-4 flex justify-end"> 
+                <div class="flex items-center gap-2"> 
+                    <label for="ativo" class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                        Status
+                    </label>
+                    <select name="ativo" id="ativo" 
+                            class="w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="1" {{ $filial->ativo ? 'selected' : '' }}>Ativo</option>
+                        <option value="0" {{ !$filial->ativo ? 'selected' : '' }}>Desativado</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- DADOS DA FILIAL -->
+             <h3 class="text-lg font-semibold text-gray-600 mb-4">🧾 Dados da Filial</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-gray-700 font-medium mb-1">Nome da Filial</label>
@@ -510,4 +525,32 @@
         }
     });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('ativo');
+    const formContainer = document.getElementById('formContainer');
+    
+    function updateStatusColors() {
+        const isActive = statusSelect.value === '1';
+        
+        // Remove classes anteriores
+        statusSelect.classList.remove('status-ativo', 'status-desativado');
+        
+        // Adiciona a classe correta
+        if (isActive) {
+            statusSelect.classList.add('status-ativo');
+            formContainer?.classList.remove('disabled');
+        } else {
+            statusSelect.classList.add('status-desativado');
+            formContainer?.classList.add('disabled');
+        }
+    }
+    
+    updateStatusColors();
+    statusSelect.addEventListener('change', updateStatusColors);
+});
+
+</script>
+
 @endsection
