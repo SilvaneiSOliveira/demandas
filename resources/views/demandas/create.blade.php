@@ -46,9 +46,27 @@
 
         {{-- Detalhes da Demanda --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Título *</label>
+                <input type="text" name="titulo" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
+            </div>
+
             <div class="md:col-span-2">
                 <label class="block text-gray-700 font-medium mb-1">Descrição *</label>
                 <textarea name="descricao" rows="4" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required></textarea>
+            </div>
+             
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Atendente *</label>
+                <select name="atendente" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
+                    <option value="">Selecione</option>
+                    <option value="Carlos Eduardo" @if(auth()->user()->name == 'Carlos Eduardo') selected @endif>Carlos Eduardo</option>
+                    <option value="Claudio Carvalho" @if(auth()->user()->name == 'Claudio Carvalho') selected @endif>Claudio Carvalho</option>
+                    <option value="Jose Iago" @if(auth()->user()->name == 'José Iago') selected @endif>José Iago</option>
+                    <option value="Tauan Costa" @if(auth()->user()->name == 'Tauan Costa') selected @endif>Tauan Costa</option>
+                    <option value="Tiago Ribeiro" @if(auth()->user()->name == 'Tiago Ribeiro') selected @endif>Tiago Ribeiro</option>                    
+                    <option value="Silvanei Santana" @if(auth()->user()->name == 'Silvanei Santana') selected @endif>Silvanei Santana</option>                    
+                </select>
             </div>
 
             <div>
@@ -58,24 +76,6 @@
                     <option value="Em andamento" {{ old('status') == 'Em andamento' ? 'selected' : '' }}>Em andamento</option>
                     <option value="Concluida" {{ old('status') == 'Concluida' ? 'selected' : '' }}>Concluída</option>
                 </select>
-            </div>
-
-            <div>
-                <label class="block text-gray-700 font-medium mb-1">Atendente *</label>
-                <select name="atendente" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
-                    <option value="">Selecione</option>
-                    <option value="Claudio Carvalho" @if(auth()->user()->name == 'Claudio Carvalho') selected @endif>Claudio Carvalho</option>
-                    <option value="Tauan Costa" @if(auth()->user()->name == 'Tauan Costa') selected @endif>Tauan Costa</option>
-                    <option value="Tiago Ribeiro" @if(auth()->user()->name == 'Tiago Ribeiro') selected @endif>Tiago Ribeiro</option>
-                    <option value="Jose Iago" @if(auth()->user()->name == 'José Iago') selected @endif>José Iago</option>
-                    <option value="Silvanei Santana" @if(auth()->user()->name == 'Silvanei Santana') selected @endif>Silvanei Santana</option>
-                    <option value="Carlos Eduardo" @if(auth()->user()->name == 'Carlos Eduardo') selected @endif>Carlos Eduardo</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-gray-700 font-medium mb-1">Título *</label>
-                <input type="text" name="titulo" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
             </div>
 
             <div>

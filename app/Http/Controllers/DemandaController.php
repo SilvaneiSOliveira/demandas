@@ -113,7 +113,7 @@ class DemandaController extends Controller
     $demandas = $query
         ->orderByRaw("FIELD(status, 'Em andamento', 'Aberta') DESC")
         ->orderBy('created_at', 'desc')
-        ->paginate(13);
+        ->paginate(10);
         $demandas->appends($request->query());
 
     // Carregar filiais

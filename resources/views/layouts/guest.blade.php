@@ -18,7 +18,7 @@
 
         <style>
             body {
-                background-image: url('{{ asset('images/fundo_login.png') }}');
+                background-image: url('{{ asset('images/fundo_login.jpg') }}');
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -47,9 +47,11 @@
         </style>
     </head>
     <body class="font-sans text-gray-900 antialiased">
+        
         <div class="overlay">
             <!-- Apenas a logo (que já contém o nome "Demandas") -->
             <img src="{{ asset('images/log.png') }}" alt="Demandas" class="login-logo">
+            
             
             {{ $slot }}
         </div>

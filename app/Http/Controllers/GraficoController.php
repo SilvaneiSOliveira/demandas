@@ -16,12 +16,17 @@ class GraficoController extends Controller
         $concluidas = Demanda::whereIn('status', ['concluída', 'concluida'])->count();
         $total = Demanda::count();
 
-        // Últimas 5 demandas (com cliente e filial já carregados)
+        // Últimas demandas (com cliente e filial já carregados)
        $ultimasDemandas = Demanda::with(['cliente', 'filial'])
-        ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
-        ->orderBy('created_at', 'desc')
-        ->limit(10)
-        ->get();
+            ->whereIn(DB::raw('LOWER(status)'), ['aberta', 'em andamento', 'andamento'])
+            ->orderByRaw("CASE 
+                WHEN LOWER(status) = 'aberta' THEN 0 
+                WHEN LOWER(status) IN ('em andamento', 'andamento') THEN 1 
+                ELSE 2 
+            END")
+            ->orderBy('created_at', 'desc')
+            ->limit(10) // Aumentei para 10 já que agora filtra apenas as ativas
+            ->get();
 
 
         // Labels: nome do cliente

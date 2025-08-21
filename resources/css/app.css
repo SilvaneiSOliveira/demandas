@@ -9,7 +9,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* DESKTOP - Sidebar fixa */
+/* Sidebar base */
 #sidebar {
   position: fixed;
   height: 100vh;
@@ -44,21 +44,16 @@ html, body {
   visibility: visible;
 }
 
-/* Conteúdo principal */
+/* Conteúdo principal - MOBILE FIRST */
 #conteudo-principal {
-  transition: all 0.3s ease;
+  margin-left: 0; /* nunca desloca no mobile */
+  padding: 4rem 1rem 1rem 1rem; /* espaço pro botão hamburger */
+  width: 100%;
   min-height: 100vh;
-  padding: 1rem;
-  margin-left: 16rem; /* aberto */
-  width: calc(100% - 16rem);
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-#conteudo-principal.menu-colapsado {
-  margin-left: 5rem; /* colapsado */
-  width: calc(100% - 5rem);
-}
-
-/* Botão hamburger para mobile (inicialmente oculto) */
+/* Botão hamburger para mobile */
 .mobile-menu-button {
   display: none;
   position: fixed;
@@ -79,69 +74,39 @@ html, body {
   transform: scale(1.05);
 }
 
-/* RESPONSIVIDADE */
-
 /* Tablets (768px - 1023px) */
 @media (max-width: 1023px) {
-  #sidebar {
-    width: 14rem; /* Sidebar um pouco menor */
-  }
-  
-  #conteudo-principal {
-    margin-left: 14rem;
-  }
-  
-  #conteudo-principal.menu-colapsado {
-    margin-left: 4rem;
-  }
-  
-  #sidebar.collapsed {
-    width: 4rem;
-  }
-}
-
-/* Mobile (max-width: 767px) */
-@media (max-width: 767px) {
-  /* Mostrar botão hamburger */
-  .mobile-menu-button {
-    display: block;
-  }
-  
-  /* Sidebar escondida por padrão */
+  /* Sidebar overlay no tablet também */
   #sidebar {
     transform: translateX(-100%);
     width: 16rem;
     transition: transform 0.3s ease;
   }
   
-  /* Sidebar visível quando ativa */
   #sidebar.mobile-active {
     transform: translateX(0);
   }
-  
-  /* Conteúdo principal ocupa toda a largura */
-  #conteudo-principal {
-    margin-left: 0;
-    padding: 4rem 1rem 1rem 1rem; /* Espaço para o botão hamburger */
+
+  /* Mostrar botão hamburger */
+  .mobile-menu-button {
+    display: block;
   }
-  
-  #conteudo-principal.menu-colapsado {
-    margin-left: 0;
-  }
-  
-  /* Esconder botão de colapsar do sidebar no mobile */
+
+  /* Esconder botão de colapsar do sidebar no mobile/tablet */
   #sidebar button[onclick="toggleSidebar()"] {
     display: none;
   }
-  
-  /* Ajustar textos no sidebar mobile */
+
   .sidebar-text {
     font-size: 0.875rem;
   }
-  
-  /* Footer do sidebar mais compacto */
+
   #sidebarFooter {
-    padding: 0.75rem;
+  position: sticky;
+  bottom: 10px; /* desce 10px do fundo */
+  background-color: #0f172a;
+  padding: 0.75rem;
+  z-index: 1001;
   }
   
   #sidebarFooter .truncate {
@@ -159,12 +124,10 @@ html, body {
     padding: 4rem 0.5rem 1rem 0.5rem;
   }
   
-  /* Ajustar padding dos itens do menu */
   #sidebar li {
     padding: 0.75rem;
   }
   
-  /* Tornar botões maiores para touch */
   #sidebar a, #sidebar div[onclick] {
     min-height: 44px;
     display: flex;
@@ -172,14 +135,30 @@ html, body {
   }
 }
 
-/* Animações e estados hover específicos para desktop */
-@media (min-width: 768px) {
+/* Desktop (lg: ≥1024px) */
+@media (min-width: 1024px) {
+  #conteudo-principal {
+    margin-left: 16rem; /* sidebar aberta */
+    width: calc(100% - 16rem);
+    padding: 1rem; /* reseta padding extra do mobile */
+  }
+  @media (max-width: 1023px) {
+  #sidebar {
+    padding-top: 5rem; /* desce o conteúdo pra não bater no botão */
+  }
+}
+
+  #conteudo-principal.menu-colapsado {
+    margin-left: 5rem; /* sidebar colapsada */
+    width: calc(100% - 5rem);
+  }
+
   #sidebar li:hover {
     transform: translateX(2px);
   }
 }
 
-/* Melhorias para acessibilidade */
+/* Acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   #sidebar,
   #conteudo-principal,
@@ -188,12 +167,13 @@ html, body {
   }
 }
 
-/* Dark mode para dispositivos que preferem */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   #sidebar {
     background-color: #0f172a;
   }
 }
+
 
 /* Mobile (max-width: 767px) */
 @media (max-width: 767px) {
@@ -205,4 +185,200 @@ html, body {
     margin-left: 0 !important;
     padding: 4rem 1rem 1rem 1rem; /* Espaço pro botão hamburger */
   }
+}
+
+/* Padrão: mobile */
+#conteudo-principal {
+  margin-left: 0; /* nunca desloca no mobile */
+  padding: 4rem 1rem 1rem 1rem; /* espaço pro hamburger */
+  width: 100%;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* Desktop (≥1024px) */
+@media (min-width: 1024px) {
+  #conteudo-principal {
+    margin-left: 16rem; /* sidebar aberta */
+    width: calc(100% - 16rem);
+    padding: 1rem; /* reseta padding extra do mobile */
+  }
+
+  #conteudo-principal.menu-colapsado {
+    margin-left: 5rem; /* sidebar colapsada */
+    width: calc(100% - 5rem);
+  }
+}
+
+/* CONSULTA DE DEMANDAS - RESPONSIVIDADE */
+
+/* 🔹 CSS específico para corrigir responsividade da tela de demandas */
+
+/* Ajustes gerais para mobile */
+@media (max-width: 768px) {
+    /* Remove padding excessivo do container principal */
+    .w-full.px-8 {
+        padding-left: 1rem !important;  /* 16px */
+        padding-right: 1rem !important; /* 16px */
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Container interno também com padding reduzido */
+    .bg-white.shadow-md.rounded-lg.p-8 {
+        padding: 1.5rem !important; /* 24px */
+    }
+
+    /* Formulário de filtros */
+    form .flex {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important; /* 12px */
+    }
+
+    /* Ajusta largura dos inputs */
+    form .flex input,
+    form .flex select,
+    form .flex button,
+    form .flex a {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* Container dos botões */
+    form .flex .flex {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.5rem !important;
+    }
+
+    /* Botão "Mais Filtros" centralizado */
+    #btn-mais-filtros {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Botão "Cadastrar Demanda" centralizado */
+    form a {
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* Grid dos filtros avançados em 1 coluna */
+    #filtros-avancados .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    /* Botões dos filtros avançados em coluna */
+    #filtros-avancados .flex.justify-end {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    #filtros-avancados .flex.justify-end button {
+        width: 100% !important;
+    }
+
+    /* Tabela responsiva em cards */
+    .overflow-x-auto {
+        padding: 0 !important;
+        margin: 0 -1rem !important; /* compensa padding do container */
+    }
+
+    table {
+        display: block !important;
+        width: calc(100% + 2rem) !important;
+        margin: 0 !important;
+    }
+
+    table thead {
+        display: none !important;
+    }
+
+    table tbody tr {
+        display: block !important;
+        margin-bottom: 1rem !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+        background: #fff !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+        width: calc(100% - 2rem) !important;
+    }
+
+    table tbody tr td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        padding: 8px 0 !important;
+        border: none !important;
+        border-bottom: 1px solid #f1f1f1 !important;
+        word-wrap: break-word !important;
+        flex-wrap: wrap !important;
+    }
+
+    table tbody tr td:last-child {
+        border-bottom: none !important;
+    }
+
+    /* Labels para os cards */
+    table tbody tr td::before {
+        content: attr(data-label);
+        font-weight: 600 !important;
+        color: #374151 !important;
+        margin-right: 12px !important;
+        min-width: 80px !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Ações dos cards */
+    table tbody tr td:last-child {
+        justify-content: center !important;
+    }
+
+    table tbody tr td:last-child .flex {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Paginação responsiva */
+    .mt-6.flex.justify-center {
+        padding: 0 1rem !important;
+    }
+
+    /* Texto de resultados */
+    .mt-2.text-center {
+        padding: 0 1rem !important;
+        font-size: 0.875rem !important;
+    }
+
+    /* Status badges */
+    .status-aberta,
+    .status-andamento, 
+    .status-concluida {
+        display: inline-block !important;
+        padding: 0.25rem 0.5rem !important;
+        border-radius: 0.25rem !important;
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+    }
+}
+
+/* Estilos para telas muito pequenas (até 480px) */
+@media (max-width: 480px) {
+    .w-full.px-8 {
+        padding-left: 0.75rem !important; /* 12px */
+        padding-right: 0.75rem !important; /* 12px */
+    }
+
+    .bg-white.shadow-md.rounded-lg.p-8 {
+        padding: 1rem !important; /* 16px */
+    }
+
+    h2 {
+        font-size: 1.25rem !important; /* Título menor */
+    }
 }

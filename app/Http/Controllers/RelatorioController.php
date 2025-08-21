@@ -28,6 +28,7 @@ class RelatorioController extends Controller
             ->when($request->status, fn($query) => $query->where('status', $request->status))
             ->when($request->data_inicio, fn($query) => $query->whereDate('created_at', '>=', $request->data_inicio))
             ->when($request->data_fim, fn($query) => $query->whereDate('created_at', '<=', $request->data_fim))
+            ->when($request->classificacao, fn($query) => $query->where('classificacao', $request->classificacao))
             ->orderBy('created_at', 'desc')
             ->paginate(13);
 
@@ -43,6 +44,7 @@ class RelatorioController extends Controller
     $relatorios = Demanda::with(['cliente', 'filial'])
         ->when($request->cliente_id, fn($q) => $q->where('cliente_id', $request->cliente_id))
         ->when($request->filial_id, fn($q) => $q->where('filial_id', $request->filial_id))
+        ->when($request->classificacao, fn($query) => $query->where('classificacao', $request->classificacao))
         ->when($request->data_inicio, fn($q) => $q->whereDate('created_at', '>=', $request->data_inicio))
         ->when($request->data_fim, fn($q) => $q->whereDate('created_at', '<=', $request->data_fim))
         ->get();
@@ -82,6 +84,10 @@ public function visualizarPdf(Request $request)
 
         if ($request->filled('filial_id')) {
             $query->where('filial_id', $request->filial_id);
+        }
+
+        if ($request->filled('classificacao')) {
+            $query->where('classificacao', $request->classificacao);
         }
 
         if ($request->filled('data_inicio')) {

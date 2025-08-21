@@ -44,6 +44,16 @@
                     </select>
                 </div>
 
+                {{-- Classificação --}}
+                <div class="flex-1 min-w-[200px]">
+                    <label class="block text-gray-700 font-medium mb-1">Classificação</label>
+                    <select name="classificacao" class="w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="">Todas</option>
+                        <option value="presencial" {{ request('classificacao') == 'presencial' ? 'selected' : '' }}>Presencial</option>
+                        <option value="remoto" {{ request('classificacao') == 'remoto' ? 'selected' : '' }}>Remoto</option>
+                    </select>
+                </div>
+
                 {{-- Data Inicial --}}
                 <div class="flex-1 min-w-[200px]">
                     <label class="block text-gray-700 font-medium mb-1">Data Início</label>
@@ -55,6 +65,7 @@
                     <label class="block text-gray-700 font-medium mb-1">Data Fim</label>
                     <input type="date" name="data_fim" value="{{ request('data_fim') }}" class="w-full border-gray-300 rounded-md shadow-sm">
                 </div>
+               
             </div>
 
             <div class="flex justify-end mt-4 gap-4">

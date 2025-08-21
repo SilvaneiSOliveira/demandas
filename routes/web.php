@@ -32,14 +32,14 @@ Route::get('/dashboard/data', [App\Http\Controllers\DashboardController::class, 
 Route::middleware('auth')->group(function () {
 
     
-
-    Route::get('/', function () {return redirect()->route('dashboard');})->name('home');
+    Route::get('/', function () {return redirect()->route('home');})->name('root');
     
     Route::resource('clientes', ClienteController::class);
     Route::resource('filiais', FilialController::class);
     Route::resource('demandas', DemandaController::class);
     Route::resource('users', UserController::class);
     Route::resource('preventivas', PreventivaController::class);
+    
 
     Route::get('/dashboard', [DashboardController::class, 'graficos']);
     Route::put('/demandas/{id}/resolucao', [DemandaController::class, 'atualizarResolucao'])->name('demandas.atualizarResolucao');

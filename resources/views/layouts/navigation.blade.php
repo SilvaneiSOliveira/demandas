@@ -104,28 +104,44 @@
    </ul>
   
    {{-- RODAPÉ --}}
-    <div id="sidebarFooter" class="absolute bottom-0 left-0 w-full p-4 bg-gray-900">
-        <div class="text-sm text-gray-300">
-            <div class="flex items-center gap-2 mb-1">
-                <span class="text-base">👤</span>
-                <span class="truncate">{{ Auth::user()->name }}</span>
-                <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded">
-                    {{ strtoupper(Auth::user()->tipo) }}
-                </span>
+<div id="sidebarFooter" class="absolute bottom-0 left-0 w-full p-4 bg-gray-800">
+    <div class="text-sm text-gray-200">
+        {{-- Usuário --}}
+        <div class="flex items-center gap-2 mb-3">
+            <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                <svg class="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
             </div>
-            <div class="flex items-center gap-2 mb-2">
-                <span class="text-base">📘</span>
-                <span class="truncate">Sistema Demandas</span>
-                <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded">V 3.5.10</span>
-            </div>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full bg-red-500 text-white font-semibold px-3 py-1 rounded hover:bg-red-700">
-                    🔓 Sair
-                </button>
-            </form>
+            <span class="truncate text-gray-200">{{ Auth::user()->name ?? 'Usuário' }}</span>
+            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded font-medium">
+                {{ strtoupper(Auth::user()->tipo ?? 'GUEST') }}
+            </span>
         </div>
+        
+        {{-- Sistema --}}
+        <div class="flex items-center gap-2 mb-3">
+            <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+            </div>
+            <span class="truncate text-gray-200">Sistema Demandas</span>
+            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded font-medium">
+                v3.5.10
+            </span>
+        </div>
+        
+        {{-- Botão Sair --}}
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="w-auto bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium px-3 py-2 rounded flex items-center gap-4 transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 25 25">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Sair do Sistema
+            </button>
+        </form>
     </div>
+</div>
 </nav>
 
 <!-- Scripts -->
@@ -228,25 +244,22 @@ function closeMobileSidebar() {
     document.body.style.overflow = '';
 }
 
-// Toggle do sidebar (função original atualizada)
+
 function toggleSidebar() {
     // No mobile, usar função específica
     if (isMobile) {
         toggleMobileSidebar();
         return;
     }
-    
+
     const sidebar = document.getElementById('sidebar');
     const texts = document.querySelectorAll('.sidebar-text');
     const title = document.querySelector('.sidebar-title');
     const arrow = document.getElementById('arrowToggle');
-    const wrapper = document.getElementById('wrapper');
     const conteudoPrincipal = document.getElementById('conteudo-principal');
-    const footer = document.getElementById('sidebarFooter'); 
+    const footer = document.getElementById('sidebarFooter');
 
-    // Toggle classes do Tailwind
-    sidebar.classList.toggle('w-64');
-    sidebar.classList.toggle('w-20');
+    // Toggle classes do sidebar
     sidebar.classList.toggle('collapsed');
 
     // Esconder/mostrar textos
@@ -255,24 +268,16 @@ function toggleSidebar() {
     if (arrow) arrow.classList.toggle('rotate-180');
 
     // Ajustar margem do conteúdo principal
-    if (wrapper) {
-        wrapper.classList.toggle('pl-64');
-        wrapper.classList.toggle('pl-20');
-    }
-    
     if (conteudoPrincipal) {
         conteudoPrincipal.classList.toggle('menu-colapsado');
     }
 
     // Controlar footer
     if (footer) {
-        if (sidebar.classList.contains('collapsed')) {
-            footer.classList.add('hidden');
-        } else {
-            footer.classList.remove('hidden');
-        }
+        footer.classList.toggle('hidden', sidebar.classList.contains('collapsed'));
     }
 }
+
 
 // Toggle de submenu (função original mantida)
 function toggleSubmenu(nome) {

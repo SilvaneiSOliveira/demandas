@@ -56,9 +56,14 @@ class DashboardController extends Controller
     public function ultimasDemandas()
 {
     $ultimasDemandas = Demanda::with(['cliente', 'filial', 'atendente'])
-        ->orderByRaw("FIELD(LOWER(status), 'aberta', 'em andamento', 'concluída')")
+        ->whereIn(DB::raw('LOWER(status)'), ['aberta', 'em andamento', 'andamento']) // FILTRO APENAS ABERTAS E EM ANDAMENTO
+        ->orderByRaw("CASE 
+            WHEN LOWER(status) = 'aberta' THEN 0 
+            WHEN LOWER(status) IN ('em andamento', 'andamento') THEN 1 
+            ELSE 2 
+        END") // PRIORIZA ABERTAS NO TOPO
         ->orderBy('created_at', 'desc')
-        ->limit(10)
+        ->limit(10) // Aumentei de 6 para 10 já que agora filtra apenas as ativas
         ->get();
 
     $html = view('dashboard._ultimas_demandas_cadastradas', compact('ultimasDemandas'))->render();
