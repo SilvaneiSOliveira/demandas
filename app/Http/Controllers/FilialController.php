@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\ContatoFilial; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Uf;
 
 
 class FilialController extends Controller
@@ -14,7 +15,7 @@ class FilialController extends Controller
     // Listar filiais com paginação
     public function index(Request $request)
 {
-    $query = Filial::with('filial');
+    $query = Filial::with('cliente');
 
     if ($request->filled('filtro')) {
         $filtro = $request->input('filtro');
@@ -25,16 +26,18 @@ class FilialController extends Controller
           });
     }
 
-    $filiais = $query->orderBy('nome', 'asc')->paginate(13); // 👈 Aqui define a paginação
+    $filiais = $query->orderBy('nome', 'asc')->paginate(13); // Aqui define a paginação
 
     return view('filiais.index', compact('filiais'));
 }
 
  // Mostrar formulário de criação
-    public function create()
+public function create()
 {
-    $clientes= Cliente::all();
-    return view('filiais.create', compact('clientes'));
+    
+    $clientes = Cliente::orderBy('nome_cliente')->get(); 
+    $ufs = Uf::orderBy('uf')->get(); 
+    return view('filiais.create', compact('clientes', 'ufs')); 
 }
     
    // Salvar nova Filial
@@ -108,8 +111,9 @@ public function edit($id)
     $filial = Filial::findOrFail($id);
     $contatos_filial = ContatoFilial::where('filial_id', $id)->get();
     $cliente = $filial->cliente;
+    $ufs = Uf::orderBy('uf')->get();
     
-    return view('filiais.edit', compact('filial', 'contatos_filial', 'cliente'));
+    return view('filiais.edit', compact('filial', 'contatos_filial', 'cliente', 'ufs'));
 }
 
    // Atualizar Filial

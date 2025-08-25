@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Models\Contato;
 use Illuminate\Support\Facades\Log;
+use App\Models\Uf;
 
 class ClienteController extends Controller
 {
@@ -28,7 +29,8 @@ class ClienteController extends Controller
     // Mostrar formulário de criação
     public function create()
     {
-        return view('clientes.create');
+        $ufs = Uf::orderBy('uf')->get();
+        return view('clientes.create', compact('ufs'));
     }
 
     // Salvar novo cliente
@@ -42,11 +44,11 @@ class ClienteController extends Controller
                 'endereco' => 'nullable|string|max:255',
                 'bairro' => 'nullable|string|max:255',
                 'cidade' => 'nullable|string|max:255',
-                'estado' => 'nullable|string|max:2',
+                'estado' => 'nullable|exists:ufs,uf',
                 'produto' => 'nullable|array',
                 'produto.*' => 'string|max:255',
                 'contatos' => 'nullable|array',
-                'contatos.*.nome' => 'required_with:contatos|string|max:255',
+                'contatos.*.nome' => 'nullable|string|max:255',
                 'contatos.*.cargo' => 'nullable|string|max:255',
                 'contatos.*.telefone' => 'nullable|string|max:20',
                 'contatos.*.email' => 'nullable|email|max:255',
@@ -71,7 +73,8 @@ class ClienteController extends Controller
 
             // Salva os contatos
             if (!empty($validated['contatos'])) {
-                foreach ($validated['contatos'] as $contatoData) {
+            foreach ($validated['contatos'] as $contatoData) {
+                if (!empty($contatoData['nome'])) { // 👈 Adicione esta linha
                     $cliente->contatos()->create([
                         'nome' => $contatoData['nome'],
                         'cargo' => $contatoData['cargo'] ?? null,
@@ -80,6 +83,8 @@ class ClienteController extends Controller
                     ]);
                 }
             }
+        }
+
 
             return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso!');
         } catch (\Exception $e) {
@@ -100,8 +105,9 @@ class ClienteController extends Controller
 {
     $cliente = Cliente::findOrFail($id);
     $contatos = Contato::where('cliente_id', $id)->get();
+    $ufs = Uf::orderBy('uf')->get();
     
-    return view('clientes.edit', compact('cliente', 'contatos'));
+    return view('clientes.edit', compact('cliente', 'contatos', 'ufs'));
 }
 
     // Atualizar cliente
@@ -117,11 +123,11 @@ class ClienteController extends Controller
             'endereco' => 'nullable|string|max:255',
             'bairro' => 'nullable|string|max:255',
             'cidade' => 'nullable|string|max:255',
-            'estado' => 'nullable|string|max:2',
+            'estado' => 'nullable|exists:ufs,uf',
             'produto' => 'nullable|array',
             'produto.*' => 'string|max:255',
             'contatos' => 'nullable|array',
-            'contatos.*.nome' => 'required_with:contatos|string|max:255',
+            'contatos.*.nome' => 'nullable|string|max:255',
             'contatos.*.cargo' => 'nullable|string|max:255',
             'contatos.*.telefone' => 'nullable|string|max:20',
             'contatos.*.email' => 'nullable|email|max:255',
@@ -145,19 +151,20 @@ class ClienteController extends Controller
         ]);
 
         // Atualiza os contatos (primeiro remove os existentes)
-        if (!empty($validated['contatos'])) {
-    
         $cliente->contatos()->delete();
 
-        foreach ($validated['contatos'] as $contatoData) {
-            $cliente->contatos()->create([
-                'nome' => $contatoData['nome'],
-                'cargo' => $contatoData['cargo'] ?? null,
-                'telefone' => $contatoData['telefone'] ?? null,
-                'email' => $contatoData['email'] ?? null,
-            ]);
+        if (!empty($validated['contatos'])) {
+            foreach ($validated['contatos'] as $contatoData) {
+                if (!empty($contatoData['nome'])) { // 👈 Adicione esta verificação
+                    $cliente->contatos()->create([
+                        'nome' => $contatoData['nome'],
+                        'cargo' => $contatoData['cargo'] ?? null,
+                        'telefone' => $contatoData['telefone'] ?? null,
+                        'email' => $contatoData['email'] ?? null,
+                    ]);
+                }
+            }
         }
-    }
 
         return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso!');
     } catch (\Exception $e) {

@@ -35,7 +35,7 @@
                 <label class="block text-gray-700 font-medium mb-1">Nível da Demanda *</label>
                 <select name="nivel" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
                     <option value="">Selecione o nível</option>
-                    <option value="0">Nenhum</option>
+                    <option value="0" selected>Nenhum</option>
                     <option value="1">Nível 1 -> Crítico</option>
                     <option value="2">Nível 2 -> Alto</option>
                     <option value="3">Nível 3 -> Moderado</option>

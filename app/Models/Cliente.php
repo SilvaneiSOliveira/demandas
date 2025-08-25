@@ -5,14 +5,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cliente extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $table = 'clientes';
+     protected $table = 'clientes';
 
-    protected $fillable = [
+     protected $fillable = [
         'nome_cliente',
         'razao_social',
         'cnpj',
@@ -36,9 +38,9 @@ class Cliente extends Model
 
     // Relacionamento com contatos
     public function contatos()
-{
+    {
     return $this->hasMany(Contato::class, 'cliente_id', 'id');
-}
+    }
     
     // Relacionamento com filial
         public function filial()

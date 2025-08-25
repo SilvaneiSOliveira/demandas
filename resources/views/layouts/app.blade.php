@@ -45,6 +45,8 @@
             </div>
        </div>
 
+       
+
     {{-- LOADING SCRIPT --}}
     <script>
         function mostrarLoading() {
@@ -91,6 +93,7 @@
     });
 
     </script>
+    
 
 @yield('scripts')
 </body>

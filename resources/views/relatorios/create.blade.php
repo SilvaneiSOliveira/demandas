@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<style> 
+    .no-loading-page {
+        display: none !important;
+    }
+</style>
 <div class="w-full px-8 bg-white shadow-md rounded-lg py-8 mt-15">
     <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">📊 Relatórios de Demandas</h2>
     

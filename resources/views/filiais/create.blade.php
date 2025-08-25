@@ -50,9 +50,21 @@
                         <label class="block text-sm font-medium text-gray-700">Endereço</label>
                         <input type="text" name="endereco" class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Estado (UF)</label>
-                        <input type="text" name="estado" maxlength="2" class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                     <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Estado (UF)</label>
+                        <select name="estado" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" required>
+                            <option value="">Selecione o estado</option>
+                            @foreach($ufs as $uf)
+                                <option value="{{ $uf->uf }}" 
+                                    @if(isset($filial) && $filial->estado == $uf->uf) selected @endif
+                                    @if(old('estado') == $uf->uf) selected @endif>
+                                    {{ $uf->uf }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('estado')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Cidade</label>

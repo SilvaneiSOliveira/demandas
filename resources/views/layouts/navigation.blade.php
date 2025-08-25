@@ -82,7 +82,7 @@
         </div>
         <ul id="submenu-tombamentos" class="list-none pl-5 mt-1 hidden">
           <li class="py-1"><a href="{{ route('tombamentos.preventivas') }}" class="text-white hover:text-cyan-300">Preventivas</a></li>
-          <li class="py-1"><a href="{{ route('tombamentos.computadores') }}" class="text-white hover:text-cyan-300">Computadores</a></li>
+          <li class="py-1"><a href="{{ route('tombamentos.computadores.index') }}" class="text-white hover:text-cyan-300">Computadores</a></li>
         </ul>
       </li>
 
@@ -116,7 +116,7 @@
             <span class="truncate text-gray-200">{{ Auth::user()->name ?? 'Usuário' }}</span>
             <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded font-medium">
                 {{ strtoupper(Auth::user()->tipo ?? 'GUEST') }}
-            </span>
+        </span>
         </div>
         
         {{-- Sistema --}}

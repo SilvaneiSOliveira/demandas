@@ -16,6 +16,7 @@ use App\Http\Controllers\AnexoController;
 use App\Http\Controllers\RelatorioAnaliticoController;
 use App\Http\Controllers\ContatoFilialController;
 use App\Http\Controllers\ContatoController;
+use App\Http\Controllers\ComputadorController;
 
 
 Auth::routes();
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('demandas', DemandaController::class);
     Route::resource('users', UserController::class);
     Route::resource('preventivas', PreventivaController::class);
+    
     
 
     Route::get('/dashboard', [DashboardController::class, 'graficos']);
@@ -83,10 +85,19 @@ Route::prefix('contatos-filial')->name('contatos_filial.')->group(function () {
 // Tombamentos
     Route::prefix('tombamentos')->group(function () {
         Route::get('/preventivas', [PreventivaController::class, 'index'])->name('tombamentos.preventivas');
-        Route::get('/computadores', function () {return view('tombamentos.computadores');})->name('tombamentos.computadores');
         Route::post('/preventiva/salvar', [PreventivaController::class, 'salvar'])->name('preventiva.salvar');
         Route::get('/preventiva/filiais/{cliente}', [PreventivaController::class, 'filiais'])->name('preventiva.filiais');
+// Computadores
+        Route::get('/computadores', [ComputadorController::class, 'index'])->name('tombamentos.computadores.index');
+        Route::get('/computadores/create', [ComputadorController::class, 'create'])->name('tombamentos.computadores.create');
+        Route::post('/computadores', [ComputadorController::class, 'store'])->name('tombamentos.computadores.store');
+        Route::get('/computadores/{computador}', [ComputadorController::class, 'show'])->name('tombamentos.computadores.show');
+        Route::get('/computadores/{computador}/edit', [ComputadorController::class, 'edit'])->name('tombamentos.computadores.edit');
+        Route::put('/computadores/{computador}', [ComputadorController::class, 'update'])->name('tombamentos.computadores.update');
+        Route::delete('/computadores/{computador}', [ComputadorController::class, 'destroy'])->name('tombamentos.computadores.destroy');
+         Route::get('/clientes/{cliente}/filiais', [ComputadorController::class, 'getFiliais'])->name('tombamentos.clientes.filiais');
 });
+
 
 // Anexos
     Route::prefix('demandas')->group(function () {
@@ -97,7 +108,8 @@ Route::prefix('contatos-filial')->name('contatos_filial.')->group(function () {
         Route::post('/demandas/{id}/anexar', [AnexoController::class, 'anexar'])->name('demanda.anexar');
 
 });
- 
+
+
 });
     Route::get('/filiais', [FilialController::class, 'index'])->name('filiais.index');
     Route::put('/demandas/{id}/status', [DemandaController::class, 'atualizarStatus'])->name('demandas.atualizarStatus');

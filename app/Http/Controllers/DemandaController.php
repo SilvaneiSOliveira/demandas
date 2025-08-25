@@ -157,7 +157,8 @@ class DemandaController extends Controller
         'classificacao' => 'nullable|string',
         'descricao' => 'nullable|string',
         'data_agendamento' => 'nullable|date',
-        'solicitante' => 'nullable|string'
+        'solicitante' => 'nullable|string',
+        'atendente' => 'nullable|string',
     ]);
 
     $dadosParaAtualizar = array_filter($validated, function($value) {
